@@ -16,8 +16,8 @@ public:
 	void registerConfig();
 	void createConfigTree();
 	void registerUserTypes();
-    const ConfigKey& getKey(const std::string& name) const { return config_registry.at(name); }
-	void setKey(const std::string& name, const ConfigKey& key) { config_registry[name] = key; }
+    const ConfigKey& getConfigKey(const std::string& name) const { return config_registry.at(name); }
+	void setConfigKey(const std::string& key, const ConfigKey& value);
     static ScriptManager* getManager();
 	void destroyManager();
 	void deinit();
