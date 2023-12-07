@@ -26,7 +26,7 @@ void ScriptManager::init() {
 	lua_man.open_libraries(sol::lib::base, sol::lib::package, sol::lib::os, sol::lib::table, sol::lib::string, sol::lib::io, sol::lib::debug, sol::lib::math);
 	if (!loadConfigFile())
 	{
-		std::cout << "Failed to load config.lua" << std::endl;
+		std::cout << "Failed to load config.lua" << "\n";
 	}
 
 	script_directory = std::filesystem::current_path();
@@ -54,7 +54,7 @@ void ScriptManager::loadScriptDirectory(const std::string& directory) {
 			}
 			catch (const sol::error& e)
 			{
-				std::cout << "an unexpected error has occurred: " << e.what() << std::endl;
+				std::cout << "an unexpected error has occurred: " << e.what() << "\n";
 			}
         }
     }
@@ -68,8 +68,8 @@ bool ScriptManager::loadConfigFile() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "Unable to load config.lua file make sure its in same folder as the server /n";
-		std::cout << "The specific error thrown when loading config.lua is : " << e.what() << "/n";
+		std::cout << "Unable to load config.lua file make sure its in same folder as the server \n";
+		std::cout << "The specific error thrown when loading config.lua is : " << e.what() << "\n";
 		return false;
 	}
 }
@@ -101,9 +101,9 @@ void ScriptManager::registerConfig() {
 		auto ServerName = lua_man.get<std::string>("ServerName");
 		if (!ServerName.empty())
 		{	// could possibly need further validation here
-			std::cout << "Current ServerName: " << getConfigKey("ServerName").value << std::endl;
+			std::cout << "Current ServerName: " << getConfigKey("ServerName").value << "\n";
 			config_registry["ServerName"].value = ServerName;
-			std::cout << "New ServerName: " << getConfigKey("ServerName").value << std::endl;
+			std::cout << "New ServerName: " << getConfigKey("ServerName").value << "\n";
 		}
 		else
 		{
@@ -112,7 +112,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -120,9 +120,9 @@ void ScriptManager::registerConfig() {
 		auto ServerPort = lua_man.get<double>("ServerPort");
 		if (ServerPort != 0)
 		{
-			std::cout << "Current ServerPort: " << getConfigKey("ServerPort").value << std::endl;
+			std::cout << "Current ServerPort: " << getConfigKey("ServerPort").value << "\n";
 			config_registry["ServerPort"].value = std::to_string(ServerPort);
-			std::cout << "ServerPort: " << getConfigKey("ServerPort").value << std::endl;
+			std::cout << "ServerPort: " << getConfigKey("ServerPort").value << "\n";
 		}
 		else
 		{
@@ -131,7 +131,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -154,16 +154,16 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
 	{
-		std::optional<bool> BindOnlyGlobalAddress = lua_man.get<bool>("BindOnlyGlobalAddress");
+		sol::optional<bool> BindOnlyGlobalAddress = lua_man.get<bool>("BindOnlyGlobalAddress");
 		if (BindOnlyGlobalAddress != std::nullopt)
 		{
 			config_registry["BindOnlyGlobalAddress"].value = *BindOnlyGlobalAddress;
-			std::cout << "BindOnlyGlobalAddress: " << *BindOnlyGlobalAddress << std::endl;
+			std::cout << "BindOnlyGlobalAddress: " << *BindOnlyGlobalAddress << "\n";
 		}
 		else
 		{
@@ -172,7 +172,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -181,7 +181,7 @@ void ScriptManager::registerConfig() {
 		if (LoginProtocolPort != 0)
 		{
 			config_registry["LoginProtocolPort"].value = std::to_string(LoginProtocolPort);
-			std::cout << "LoginProtocolPort: " << LoginProtocolPort << std::endl;
+			std::cout << "LoginProtocolPort: " << LoginProtocolPort << "\n";
 		}
 		else
 		{
@@ -190,7 +190,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -199,7 +199,7 @@ void ScriptManager::registerConfig() {
 		if (GameProtocolPort != 0)
 		{
 			config_registry["GameProtocolPort"].value = std::to_string(GameProtocolPort);
-			std::cout << "GameProtocolPort: " << GameProtocolPort << std::endl;
+			std::cout << "GameProtocolPort: " << GameProtocolPort << "\n";
 		}
 		else
 		{
@@ -208,7 +208,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -217,7 +217,7 @@ void ScriptManager::registerConfig() {
 		if (StatusProtocolPort != 0)
 		{
 			config_registry["StatusProtocolPort"].value = std::to_string(StatusProtocolPort);
-			std::cout << "StatusProtocolPort: " << StatusProtocolPort << std::endl;
+			std::cout << "StatusProtocolPort: " << StatusProtocolPort << "\n";
 		}
 		else
 		{
@@ -226,7 +226,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -235,7 +235,7 @@ void ScriptManager::registerConfig() {
 		if (MaxPlayers != 0)
 		{
 			config_registry["MaxPlayers"].value = std::to_string(MaxPlayers);
-			std::cout << "MaxPlayers: " << MaxPlayers << std::endl;
+			std::cout << "MaxPlayers: " << MaxPlayers << "\n";
 		}
 		else
 		{
@@ -244,7 +244,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -253,7 +253,7 @@ void ScriptManager::registerConfig() {
 		if (OnePlayerOnlinePerAccount != std::nullopt)
 		{
 			config_registry["OnePlayerOnlinePerAccount"].value = *OnePlayerOnlinePerAccount;
-			std::cout << "OnePlayerOnlinePerAccount: " << *OnePlayerOnlinePerAccount << std::endl;
+			std::cout << "OnePlayerOnlinePerAccount: " << *OnePlayerOnlinePerAccount << "\n";
 		}
 		else
 		{
@@ -262,7 +262,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -271,7 +271,7 @@ void ScriptManager::registerConfig() {
 		if (AllowMultiLogin != std::nullopt)
 		{
 			config_registry["AllowMultiLogin"].value = *AllowMultiLogin;
-			std::cout << "AllowMultiLogin: " << *AllowMultiLogin << std::endl;
+			std::cout << "AllowMultiLogin: " << *AllowMultiLogin << "\n";
 		}
 		else
 		{
@@ -280,7 +280,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -289,7 +289,7 @@ void ScriptManager::registerConfig() {
 		if (MaxSameIPConnection != 0)
 		{
 			config_registry["MaxSameIPConnection"].value = std::to_string(MaxSameIPConnection);
-			std::cout << "MaxSameIPConnection: " << MaxSameIPConnection << std::endl;
+			std::cout << "MaxSameIPConnection: " << MaxSameIPConnection << "\n";
 		}
 		else
 		{
@@ -298,7 +298,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -307,7 +307,7 @@ void ScriptManager::registerConfig() {
 		if (MaxConnection != 0)
 		{
 			config_registry["MaxConnection"].value = std::to_string(MaxConnection);
-			std::cout << "MaxConnection: " << MaxConnection << std::endl;
+			std::cout << "MaxConnection: " << MaxConnection << "\n";
 		}
 		else
 		{
@@ -316,7 +316,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -326,7 +326,7 @@ void ScriptManager::registerConfig() {
 		if (MaxConnectionsPerIP != 0)
 		{
 			config_registry["MaxConnectionsPerIP"].value = std::to_string(MaxConnectionsPerIP);
-			std::cout << "MaxConnectionsPerIP: " << MaxConnectionsPerIP << std::endl;
+			std::cout << "MaxConnectionsPerIP: " << MaxConnectionsPerIP << "\n";
 		}
 		else
 		{
@@ -335,7 +335,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -344,7 +344,7 @@ void ScriptManager::registerConfig() {
 		if (MaxConnectionsPerAccount != 0)
 		{
 			config_registry["MaxConnectionsPerAccount"].value = std::to_string(MaxConnectionsPerAccount);
-			std::cout << "MaxConnectionsPerAccount: " << MaxConnectionsPerAccount << std::endl;
+			std::cout << "MaxConnectionsPerAccount: " << MaxConnectionsPerAccount << "\n";
 		}
 		else
 		{
@@ -353,7 +353,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 
 	try
@@ -362,7 +362,7 @@ void ScriptManager::registerConfig() {
 		if (MaxConnectionsPerCharacter != 0)
 		{
 			config_registry["MaxConnectionsPerCharacter"].value = std::to_string(MaxConnectionsPerCharacter);
-			std::cout << "MaxConnectionsPerCharacter: " << MaxConnectionsPerCharacter << std::endl;
+			std::cout << "MaxConnectionsPerCharacter: " << MaxConnectionsPerCharacter << "\n";
 		}
 		else
 		{
@@ -371,7 +371,7 @@ void ScriptManager::registerConfig() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "an expected error has occurred: " << e.what() << std::endl;
+		std::cout << "an expected error has occurred: " << e.what() << "\n";
 	}
 }
 
