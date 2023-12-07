@@ -102,7 +102,7 @@ void ScriptManager::registerConfig() {
 		if (!ServerName.empty())
 		{	// could possibly need further validation here
 			std::cout << "Current ServerName: " << getConfigKey("ServerName").value << "\n";
-			config_registry["ServerName"].value = ServerName;
+			setConfigKey("ServerName", ConfigKey(ConfigKeyType::string, "ServerName", ServerName));
 			std::cout << "New ServerName: " << getConfigKey("ServerName").value << "\n";
 		}
 		else
@@ -117,11 +117,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto ServerPort = lua_man.get<double>("ServerPort");
+		auto ServerPort = lua_man.get<int>("ServerPort");
 		if (ServerPort != 0)
 		{
 			std::cout << "Current ServerPort: " << getConfigKey("ServerPort").value << "\n";
-			config_registry["ServerPort"].value = std::to_string(ServerPort);
+			setConfigKey("ServerPort", ConfigKey(ConfigKeyType::integer, "ServerPort", std::to_string(ServerPort)));
 			std::cout << "ServerPort: " << getConfigKey("ServerPort").value << "\n";
 		}
 		else
@@ -139,11 +139,11 @@ void ScriptManager::registerConfig() {
 		auto ScriptDirectory = lua_man.get<std::string>("ScriptDirectory");
 		if (!ScriptDirectory.empty())
 		{
-			config_registry["ScriptDirectory"].value = ScriptDirectory;
 			// MAY NEED FURTHER VALIDATION \\
 			// we attach the relative path located in config for script directory
 			// to the end of the initialized script_directory path (current dir).
 			// then we set the slashes and backslashes to the current OS with make_preferred.
+			setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
 			script_directory = script_directory / ScriptDirectory;
 			script_directory.make_preferred();
 		}
@@ -163,7 +163,8 @@ void ScriptManager::registerConfig() {
 		if (BindOnlyGlobalAddress != std::nullopt)
 		{
 			config_registry["BindOnlyGlobalAddress"].value = *BindOnlyGlobalAddress;
-			std::cout << "BindOnlyGlobalAddress: " << *BindOnlyGlobalAddress << "\n";
+			setConfigKey("BindOnlyGlobalAddress", ConfigKey(ConfigKeyType::boolean, "BindOnlyGlobalAddress", *BindOnlyGlobalAddress ? "true" : "false"));
+			std::cout << "BindOnlyGlobalAddress: " << getConfigKey("BindOnlyGlobalAddress").value << "\n";
 		}
 		else
 		{
@@ -177,11 +178,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto LoginProtocolPort = lua_man.get<double>("LoginProtocolPort");
+		auto LoginProtocolPort = lua_man.get<int>("LoginProtocolPort");
 		if (LoginProtocolPort != 0)
 		{
-			config_registry["LoginProtocolPort"].value = std::to_string(LoginProtocolPort);
-			std::cout << "LoginProtocolPort: " << LoginProtocolPort << "\n";
+			setConfigKey("LoginProtocolPort", ConfigKey(ConfigKeyType::integer, "LoginProtocolPort", std::to_string(LoginProtocolPort)));
+			std::cout << "LoginProtocolPort: " << getConfigKey("LoginProtocolPort").value << "\n";
 		}
 		else
 		{
@@ -195,11 +196,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto GameProtocolPort = lua_man.get<double>("GameProtocolPort");
+		auto GameProtocolPort = lua_man.get<int>("GameProtocolPort");
 		if (GameProtocolPort != 0)
 		{
-			config_registry["GameProtocolPort"].value = std::to_string(GameProtocolPort);
-			std::cout << "GameProtocolPort: " << GameProtocolPort << "\n";
+			setConfigKey("GameProtocolPort", ConfigKey(ConfigKeyType::integer, "GameProtocolPort", std::to_string(GameProtocolPort)));
+			std::cout << "GameProtocolPort: " << getConfigKey("GameProtocolPort").value << "\n";
 		}
 		else
 		{
@@ -213,11 +214,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto StatusProtocolPort = lua_man.get<double>("StatusProtocolPort");
+		auto StatusProtocolPort = lua_man.get<int>("StatusProtocolPort");
 		if (StatusProtocolPort != 0)
 		{
-			config_registry["StatusProtocolPort"].value = std::to_string(StatusProtocolPort);
-			std::cout << "StatusProtocolPort: " << StatusProtocolPort << "\n";
+			setConfigKey("StatusProtocolPort", ConfigKey(ConfigKeyType::integer, "StatusProtocolPort", std::to_string(StatusProtocolPort)));
+			std::cout << "StatusProtocolPort: " << getConfigKey("StatusProtocolPort").value << "\n";
 		}
 		else
 		{
@@ -231,11 +232,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto MaxPlayers = lua_man.get<double>("MaxPlayers");
+		auto MaxPlayers = lua_man.get<int>("MaxPlayers");
 		if (MaxPlayers != 0)
 		{
-			config_registry["MaxPlayers"].value = std::to_string(MaxPlayers);
-			std::cout << "MaxPlayers: " << MaxPlayers << "\n";
+			setConfigKey("MaxPlayers", ConfigKey(ConfigKeyType::integer, "MaxPlayers", std::to_string(MaxPlayers)));
+			std::cout << "MaxPlayers: " << getConfigKey("MaxPlayers").value << "\n";
 		}
 		else
 		{
@@ -249,11 +250,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		std::optional<bool> OnePlayerOnlinePerAccount = lua_man.get<bool>("OnePlayerOnlinePerAccount");
+		sol::optional<bool> OnePlayerOnlinePerAccount = lua_man.get<bool>("OnePlayerOnlinePerAccount");
 		if (OnePlayerOnlinePerAccount != std::nullopt)
 		{
-			config_registry["OnePlayerOnlinePerAccount"].value = *OnePlayerOnlinePerAccount;
-			std::cout << "OnePlayerOnlinePerAccount: " << *OnePlayerOnlinePerAccount << "\n";
+			setConfigKey("OnePlayerOnlinePerAccount", ConfigKey(ConfigKeyType::boolean, "OnePlayerOnlinePerAccount", *OnePlayerOnlinePerAccount ? "true" : "false")); 
+			std::cout << "OnePlayerOnlinePerAccount: " << getConfigKey("OnePlayerOnlinePerAccount").value << "\n";
 		}
 		else
 		{
@@ -267,11 +268,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		std::optional<bool> AllowMultiLogin = lua_man.get<bool>("AllowMultiLogin");
+		sol::optional<bool> AllowMultiLogin = lua_man.get<bool>("AllowMultiLogin");
 		if (AllowMultiLogin != std::nullopt)
 		{
-			config_registry["AllowMultiLogin"].value = *AllowMultiLogin;
-			std::cout << "AllowMultiLogin: " << *AllowMultiLogin << "\n";
+			setConfigKey("AllowMultiLogin", ConfigKey(ConfigKeyType::boolean, "AllowMultiLogin", *AllowMultiLogin ? "true" : "false"));
+			std::cout << "AllowMultiLogin: " << getConfigKey("AllowMultiLogin").value << "\n";
 		}
 		else
 		{
@@ -285,11 +286,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto MaxSameIPConnection = lua_man.get<double>("MaxSameIPConnection");
+		auto MaxSameIPConnection = lua_man.get<int>("MaxSameIPConnection");
 		if (MaxSameIPConnection != 0)
 		{
-			config_registry["MaxSameIPConnection"].value = std::to_string(MaxSameIPConnection);
-			std::cout << "MaxSameIPConnection: " << MaxSameIPConnection << "\n";
+			setConfigKey("MaxSameIPConnection", ConfigKey(ConfigKeyType::integer, "MaxSameIPConnection", std::to_string(MaxSameIPConnection)));
+			std::cout << "MaxSameIPConnection: " << getConfigKey("MaxSameIPConnection").value << "\n";
 		}
 		else
 		{
@@ -303,11 +304,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto MaxConnection = lua_man.get<double>("MaxConnection");
+		auto MaxConnection = lua_man.get<int>("MaxConnection");
 		if (MaxConnection != 0)
 		{
-			config_registry["MaxConnection"].value = std::to_string(MaxConnection);
-			std::cout << "MaxConnection: " << MaxConnection << "\n";
+			setConfigKey("MaxConnection", ConfigKey(ConfigKeyType::integer, "MaxConnection", std::to_string(MaxConnection)));
+			std::cout << "MaxConnection: " << getConfigKey("MaxConnection").value << "\n";
 		}
 		else
 		{
@@ -322,11 +323,11 @@ void ScriptManager::registerConfig() {
 	try
 	{
 
-		auto MaxConnectionsPerIP = lua_man.get<double>("MaxConnectionsPerIP");
+		auto MaxConnectionsPerIP = lua_man.get<int>("MaxConnectionsPerIP");
 		if (MaxConnectionsPerIP != 0)
 		{
-			config_registry["MaxConnectionsPerIP"].value = std::to_string(MaxConnectionsPerIP);
-			std::cout << "MaxConnectionsPerIP: " << MaxConnectionsPerIP << "\n";
+			setConfigKey("MaxConnectionsPerIP", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerIP", std::to_string(MaxConnectionsPerIP)));
+			std::cout << "MaxConnectionsPerIP: " << getConfigKey("MaxConnectionsPerIP").value << "\n";
 		}
 		else
 		{
@@ -340,11 +341,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto MaxConnectionsPerAccount = lua_man.get<double>("MaxConnectionsPerAccount");
+		auto MaxConnectionsPerAccount = lua_man.get<int>("MaxConnectionsPerAccount");
 		if (MaxConnectionsPerAccount != 0)
 		{
-			config_registry["MaxConnectionsPerAccount"].value = std::to_string(MaxConnectionsPerAccount);
-			std::cout << "MaxConnectionsPerAccount: " << MaxConnectionsPerAccount << "\n";
+			setConfigKey("MaxConnectionsPerAccount", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerAccount", std::to_string(MaxConnectionsPerAccount)));
+			std::cout << "MaxConnectionsPerAccount: " << getConfigKey("MaxConnectionsPerAccount").value << "\n";
 		}
 		else
 		{
@@ -358,11 +359,11 @@ void ScriptManager::registerConfig() {
 
 	try
 	{
-		auto MaxConnectionsPerCharacter = lua_man.get<double>("MaxConnectionsPerCharacter");
+		auto MaxConnectionsPerCharacter = lua_man.get<int>("MaxConnectionsPerCharacter");
 		if (MaxConnectionsPerCharacter != 0)
 		{
-			config_registry["MaxConnectionsPerCharacter"].value = std::to_string(MaxConnectionsPerCharacter);
-			std::cout << "MaxConnectionsPerCharacter: " << MaxConnectionsPerCharacter << "\n";
+			setConfigKey("MaxConnectionsPerCharacter", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerCharacter", std::to_string(MaxConnectionsPerCharacter)));
+			std::cout << "MaxConnectionsPerCharacter: " << getConfigKey("MaxConnectionsPerCharacter").value << "\n";
 		}
 		else
 		{
