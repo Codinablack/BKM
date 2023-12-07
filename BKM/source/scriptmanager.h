@@ -6,6 +6,7 @@
 #include <sol/sol.hpp>
 #include "globals.h"
 #include <mutex>
+#include <filesystem>
 
 class ScriptManager
 {
@@ -32,6 +33,7 @@ private:
     ScriptManager(ScriptManager& other) = delete;
     void operator=(const ScriptManager&) = delete;
 
+	std::filesystem::path script_directory;
     std::unordered_map<std::string, ConfigKey> config_registry;
     std::map<std::string, std::string> sm_scripts;
 	sol::state lua_man;

@@ -1,6 +1,6 @@
 ServerName = "BKM"
 ServerPort = 8585
-ScriptDirectory = "data/"
+ScriptDirectory = "data/scripts"
 BindOnlyGlobalAddress = false
 LoginProtocolPort = 7171
 GameProtocolPort = 7172

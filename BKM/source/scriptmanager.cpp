@@ -28,6 +28,8 @@ void ScriptManager::init() {
 	{
 		std::cout << "Failed to load config.lua" << std::endl;
 	}
+
+	script_directory = std::filesystem::current_path();
 	createConfigTree();
 	registerConfig();
 	registerUserTypes();
@@ -138,7 +140,12 @@ void ScriptManager::registerConfig() {
 		if (!ScriptDirectory.empty())
 		{
 			config_registry["ScriptDirectory"].value = ScriptDirectory;
-			std::cout << "ScriptDirectory: " << ScriptDirectory << std::endl;
+			// MAY NEED FURTHER VALIDATION \\
+			// we attach the relative path located in config for script directory
+			// to the end of the initialized script_directory path (current dir).
+			// then we set the slashes and backslashes to the current OS with make_preferred.
+			script_directory = script_directory / ScriptDirectory;
+			script_directory.make_preferred();
 		}
 		else
 		{
