@@ -1,5 +1,5 @@
-#ifndef _ENUMS_H
-#define _ENUMS_H
+#ifndef _ENUMS_HPP
+#define _ENUMS_HPP
 
 enum ConfigKeyType
 {

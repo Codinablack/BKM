@@ -1,10 +1,10 @@
-#ifndef _SCRIPTMANAGER_H
-#define _SCRIPTMANAGER_H
+#ifndef _SCRIPTMANAGER_HPP
+#define _SCRIPTMANAGER_HPP
 #include <unordered_map>
 #include <map>
 #include <lua.hpp>
 #include <sol/sol.hpp>
-#include "globals.h"
+#include "globals.hpp"
 #include <mutex>
 #include <filesystem>
 

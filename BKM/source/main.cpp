@@ -3,7 +3,7 @@
 #include <sol/sol.hpp>
 #include "player.hpp"
 #include <iostream>
-#include "scriptmanager.h"
+#include "scriptmanager.hpp"
 
 
 int main() {

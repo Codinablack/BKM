@@ -1,4 +1,4 @@
-#include "scriptmanager.h"
+#include "scriptmanager.hpp"
 #include <filesystem>
 
 ScriptManager* ScriptManager::sm_instance = nullptr;

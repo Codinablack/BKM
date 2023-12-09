@@ -1,8 +1,8 @@
-#ifndef _GLOBALS_H
-#define _GLOBALS_H
+#ifndef _GLOBALS_HPP
+#define _GLOBALS_HPP
 
 #include <string>
-#include "enums.h"
+#include "enums.hpp"
 
 struct ConfigKey
 {
