@@ -12,7 +12,7 @@ class ScriptManager
 {
 public:
     void init();
-	void loadScriptDirectory(const std::string& directory);
+	void loadScriptDirectory(const std::filesystem::path directory);
 	bool loadConfigFile();
 	void registerConfig();
 	void createConfigTree();

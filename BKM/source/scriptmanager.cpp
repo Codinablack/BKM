@@ -37,10 +37,10 @@ void ScriptManager::init() {
 	}
 
 	script_directory = std::filesystem::current_path();
+	registerUserTypes();
 	createConfigTree();
 	registerConfig();
-	registerUserTypes();
-	lua_man.script_file("test.lua");
+
 }
 
 // TODO
@@ -53,7 +53,7 @@ void ScriptManager::deinit() {
 	lua_man.~state();
 }
 
-void ScriptManager::loadScriptDirectory(const std::string& directory) {
+void ScriptManager::loadScriptDirectory(const std::filesystem::path directory) {
     for (const auto& entry : std::filesystem::recursive_directory_iterator(directory)) {
         if (entry.is_regular_file() && entry.path().extension() == ".lua") {
 			try
@@ -154,6 +154,7 @@ void ScriptManager::registerConfig() {
 			setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
 			script_directory = script_directory / ScriptDirectory;
 			script_directory.make_preferred();
+			loadScriptDirectory(script_directory);
 		}
 		else
 		{
