@@ -147,4 +147,30 @@ public:
 	EnergyPoints(uint32_t max, uint32_t current, uint32_t bonus) : PointBasedStat(max, current, bonus) {};
 };
 
+class SpeedPoints : public PointBasedStat {
+protected:
+	uint32_t max = 0;
+	uint32_t current = 0;
+	uint32_t bonus = 0;
+
+public:
+	SpeedPoints() : PointBasedStat() {};
+	SpeedPoints(uint32_t max) : PointBasedStat(max) {};
+	SpeedPoints(uint32_t max, uint32_t current) : PointBasedStat(max, current) {};
+	SpeedPoints(uint32_t max, uint32_t current, uint32_t bonus) : PointBasedStat(max, current, bonus) {};
+};
+
+class ExperiencePoints : public PointBasedStat {
+protected:
+	uint32_t max = 0;
+	uint32_t current = 0;
+	uint32_t bonus = 0;
+
+public:
+	ExperiencePoints() : PointBasedStat() {};
+	ExperiencePoints(uint32_t max) : PointBasedStat(max) {};
+	ExperiencePoints(uint32_t max, uint32_t current) : PointBasedStat(max, current) {};
+	ExperiencePoints(uint32_t max, uint32_t current, uint32_t bonus) : PointBasedStat(max, current, bonus) {};
+};
+
 #endif

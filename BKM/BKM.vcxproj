@@ -134,14 +134,14 @@
     <ClCompile Include="source\scriptmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="creature.hpp" />
-    <ClInclude Include="item.hpp" />
+    <ClInclude Include="source\creature.hpp" />
+    <ClInclude Include="source\item.hpp" />
     <ClInclude Include="source\enums.hpp" />
     <ClInclude Include="source\globals.hpp" />
     <ClInclude Include="source\player.hpp" />
     <ClInclude Include="source\pointbasedstat.hpp" />
     <ClInclude Include="source\scriptmanager.hpp" />
-    <ClInclude Include="thing.hpp" />
+    <ClInclude Include="source\thing.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

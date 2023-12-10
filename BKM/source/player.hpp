@@ -1,46 +1,18 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef _PLAYER_HPP
+#define _PLAYER_HPP
 #include <iostream>
+#include "creature.hpp"
 
-struct player {
+class Player : public Creature {
 public:
-	int bullets;
-	int speed;
+	// non-copyable
+	Player(const Player&) = delete;
+	Player& operator=(const Player&) = delete;
 
-	player()
-		: player(3, 100) {
-
-	}
-
-	player(int ammo) : player(ammo, 100) {
-
-	}
-
-	player(int ammo, int hitpoints)	: bullets(ammo), hp(hitpoints) {
-
-	}
-
-	void boost() {
-		speed += 10;
-	}
-
-	bool shoot() {
-		if (bullets < 1)
-			return false;
-		--bullets;
-		return true;
-	}
-
-	void set_hp(int value) {
-		hp = value;
-	}
-
-	int get_hp() const {
-		return hp;
-	}
+	std::unique_ptr<Player> getPlayer() final override { return std::unique_ptr<Player>(this); }
 
 private:
-	int hp;
+	
 };
 
 #endif
