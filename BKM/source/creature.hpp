@@ -17,7 +17,7 @@ public:
 	Creature(const Creature&) = delete;
 	Creature& operator=(const Creature&) = delete;
 
-	std::shared_ptr<Creature> getCreature() override final { return std::shared_ptr<Creature>(this, [](Creature*) {}); }
+	std::shared_ptr<Creature> getCreature() override final { return std::shared_ptr<Creature>(this); }
 	virtual std::shared_ptr<Player> getPlayer() { return nullptr; }
 	virtual std::shared_ptr<Npc> getNpc() { return nullptr; }
 	virtual std::shared_ptr<Monster> getMonster() { return nullptr; }

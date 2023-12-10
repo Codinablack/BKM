@@ -11,7 +11,7 @@ public:
 	Npc(const Npc&) = delete;
 	Npc& operator=(const Npc&) = delete;
 
-	std::shared_ptr<Npc> getNpc() final override { return std::shared_ptr<Npc>(this, [](Npc*) {}); }
+	std::shared_ptr<Npc> getNpc() final override { return std::shared_ptr<Npc>(this); }
 
 private:
 
