@@ -46,5 +46,11 @@
     <ClInclude Include="source\thing.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\monster.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\npc.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

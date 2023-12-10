@@ -1,5 +1,12 @@
 #include "scriptmanager.hpp"
 #include <filesystem>
+#include "item.hpp"
+#include "thing.hpp"
+#include "creature.hpp"
+#include "player.hpp"
+#include "monster.hpp"
+#include "npc.hpp"
+
 
 ScriptManager* ScriptManager::sm_instance = nullptr;
 std::mutex ScriptManager::sm_mutex;
@@ -33,6 +40,7 @@ void ScriptManager::init() {
 	createConfigTree();
 	registerConfig();
 	registerUserTypes();
+	lua_man.script_file("test.lua");
 }
 
 // TODO
@@ -389,10 +397,35 @@ void ScriptManager::setConfigKey(const std::string& key, const ConfigKey& value)
 
 
 void ScriptManager::registerUserTypes() {
-	//lua_man.new_usertype<player>("player",
-	//	"shoot", &player::shoot,
-	//	"boost", &player::boost,
-	//	"set_hp", &player::set_hp,
-	//	"get_hp", &player::get_hp
-	//);
+
+	lua_man.new_usertype<Thing>
+		("Thing",
+			"getItem", &Thing::getItem,
+			"getCreature", &Thing::getCreature);
+
+	lua_man.new_usertype<Creature>
+		("Creature",
+			"getCreature", &Creature::getCreature,
+			"getPlayer", &Creature::getPlayer,
+			"getMonster", &Creature::getMonster,
+			"getHealthPoints", &Creature::getHealthPoints,
+			"getMaxHealth", &Creature::getMaxHealthPoints,
+			"getManaPoints", &Creature::getManaPoints,
+			"getMaxMana", &Creature::getMaxManaPoints,
+			"getExp", &Creature::getExperiencePoints,
+			"getExpToNextLevel", &Creature::getExpToNextLevel,
+			sol::base_classes, sol::bases<Thing>());
+
+	lua_man.new_usertype<Player>
+		("Player",
+			"getCreature", &Player::getCreature,
+			"getPlayer", &Player::getPlayer,
+			"getMonster", &Player::getMonster,
+			"getHealthPoints", &Player::getHealthPoints,
+			"getMaxHealth", &Player::getMaxHealthPoints,
+			"getManaPoints", &Player::getManaPoints,
+			"getMaxMana", &Player::getMaxManaPoints,
+			"getExp", &Player::getExperiencePoints,
+			"getExpToNextLevel", &Player::getExpToNextLevel,
+			sol::base_classes, sol::bases<Creature>());
 }

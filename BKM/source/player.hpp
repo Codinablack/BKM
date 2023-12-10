@@ -5,14 +5,20 @@
 
 class Player : public Creature {
 public:
+
+	Player() = default;
+	~Player() = default;
+
 	// non-copyable
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
 
-	std::unique_ptr<Player> getPlayer() final override { return std::unique_ptr<Player>(this); }
+	std::shared_ptr<Player> getPlayer() final override { return std::shared_ptr<Player>(this); }
+
+protected:
 
 private:
-	
+
 };
 
 #endif

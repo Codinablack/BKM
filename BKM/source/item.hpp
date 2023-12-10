@@ -1,6 +1,6 @@
 #ifndef _ITEM_HPP
 #define _ITEM_HPP
-#include "Thing.hpp"
+#include "thing.hpp"
 #include <cstdint>
 
 class Item : virtual public Thing
@@ -20,10 +20,9 @@ public:
 	Item& operator=(const Item&) = delete;
 
 	bool equals(const Item* otherItem) const;
-
-	Item* getItem() override final { return this; }
-	const Item* getItem() const override final { return this; }
-
+protected:
+	Item() = default;
+private:
 };
 
 #endif

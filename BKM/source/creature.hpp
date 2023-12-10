@@ -5,20 +5,22 @@
 #include "pointbasedstat.hpp"
 
 class Player;
+class Monster;
+class Npc;
 
 class Creature : public virtual Thing
 {
 public:
-
-	virtual ~Creature() = default;
+	Creature() = default;
+	virtual ~Creature() noexcept = default;
 
 	Creature(const Creature&) = delete;
 	Creature& operator=(const Creature&) = delete;
 
-	std::unique_ptr<Creature> getCreature() override final { return std::unique_ptr<Creature>(this); }
-	virtual std::unique_ptr<Player> getPlayer() { return nullptr; }
-	//virtual std::shared_ptr<Npc> getNpc() { return nullptr; }
-	//virtual std::shared_ptr<Monster> getMonster() { return nullptr; }
+	std::shared_ptr<Creature> getCreature() override final { return std::shared_ptr<Creature>(this, [](Creature*) {}); }
+	virtual std::shared_ptr<Player> getPlayer() { return nullptr; }
+	virtual std::shared_ptr<Npc> getNpc() { return nullptr; }
+	virtual std::shared_ptr<Monster> getMonster() { return nullptr; }
 
 
 	uint32_t const getHealthPoints() { return c_health.getCurrentPoints(); }
@@ -29,7 +31,8 @@ public:
 	uint32_t const getExpToNextLevel() { return c_exp.getMaxPoints() - c_exp.getCurrentPoints(); } 
 
 protected:
-	Creature() = default;
+
+
 
 private:
 	HealthPoints c_health;
