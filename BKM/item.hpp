@@ -1,7 +1,7 @@
 #ifndef _ITEM_HPP
 #define _ITEM_HPP
 #include "Thing.hpp"
-#include <stdint.h>
+#include <cstdint>
 
 class Item : virtual public Thing
 {

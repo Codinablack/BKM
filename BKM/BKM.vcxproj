@@ -139,6 +139,7 @@
     <ClInclude Include="source\enums.hpp" />
     <ClInclude Include="source\globals.hpp" />
     <ClInclude Include="source\player.hpp" />
+    <ClInclude Include="source\pointbasedstat.hpp" />
     <ClInclude Include="source\scriptmanager.hpp" />
     <ClInclude Include="thing.hpp" />
   </ItemGroup>
