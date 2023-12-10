@@ -25,13 +25,22 @@
     <ClInclude Include="source\player.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\scriptmanager.h">
+    <ClInclude Include="source\scriptmanager.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\enums.h">
+    <ClInclude Include="source\enums.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\globals.h">
+    <ClInclude Include="source\globals.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="thing.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="creature.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="item.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
