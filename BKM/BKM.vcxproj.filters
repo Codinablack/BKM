@@ -20,6 +20,9 @@
     <ClCompile Include="source\scriptmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networkmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\player.hpp">
@@ -50,6 +53,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="source\npc.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networkmanager.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

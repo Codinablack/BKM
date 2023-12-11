@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\networkmanager.cpp" />
     <ClCompile Include="source\player.cpp" />
     <ClCompile Include="source\scriptmanager.cpp" />
   </ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="source\enums.hpp" />
     <ClInclude Include="source\globals.hpp" />
     <ClInclude Include="source\monster.hpp" />
+    <ClInclude Include="source\networkmanager.hpp" />
     <ClInclude Include="source\npc.hpp" />
     <ClInclude Include="source\player.hpp" />
     <ClInclude Include="source\pointbasedstat.hpp" />
