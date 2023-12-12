@@ -1,6 +1,5 @@
 #include "NetworkManager.hpp"
 
-
 NetworkManager& NetworkManager::getInstance() {
   static NetworkManager instance;
   return instance;
