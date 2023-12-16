@@ -12,6 +12,16 @@ class Creature : public virtual Thing
 {
 public:
 	Creature() = default;
+	Creature(sol::this_state ts) {
+		lua_State* L = ts;
+		// references the object that called this function
+		// in constructors:
+		sol::stack_object selfobj(L, 1);
+
+		// definitely the same
+		Creature& self = selfobj.as<Creature>();
+		assert(&self == this);
+	}
 	virtual ~Creature() noexcept = default;
 
 	Creature(const Creature&) = delete;

@@ -398,35 +398,20 @@ void ScriptManager::setConfigKey(const std::string& key, const ConfigKey& value)
 
 
 void ScriptManager::registerUserTypes() {
+	/// constructorlist example.		sol::constructors<vector(),vector(float),void(float, float)>	clist;
+	sol::usertype<Thing> thing_type = lua_man.new_usertype<Thing>("Thing", sol::call_constructor, sol::factories([]() {return new Thing(); }));
+	thing_type["getItem"] = &Thing::getItem;
+	thing_type["getCreature"] = &Thing::getCreature;
 
-	lua_man.new_usertype<Thing>
-		("Thing",
-			"getItem", &Thing::getItem,
-			"getCreature", &Thing::getCreature);
+	sol::usertype<Creature> creature_type = lua_man.new_usertype<Creature>("Creature", sol::constructors<Creature(sol::this_state)>());
+	creature_type["getCreature"] = &Creature::getCreature;
+	creature_type["getPlayer"] = &Creature::getPlayer;
+	creature_type[sol::base_classes] = sol::bases<Thing>();
 
-	lua_man.new_usertype<Creature>
-		("Creature",
-			"getCreature", &Creature::getCreature,
-			"getPlayer", &Creature::getPlayer,
-			"getMonster", &Creature::getMonster,
-			"getHealthPoints", &Creature::getHealthPoints,
-			"getMaxHealth", &Creature::getMaxHealthPoints,
-			"getManaPoints", &Creature::getManaPoints,
-			"getMaxMana", &Creature::getMaxManaPoints,
-			"getExp", &Creature::getExperiencePoints,
-			"getExpToNextLevel", &Creature::getExpToNextLevel,
-			sol::base_classes, sol::bases<Thing>());
+	sol::usertype<Player> player_type = lua_man.new_usertype<Player>("Player", sol::constructors < Player(sol::this_state)>());
+	player_type["getPlayer"] = &Player::getPlayer;
+	player_type["getMonster"] = &Player::getMonster;
+	player_type["getHealthPoints"] = &Player::getHealthPoints;
+	player_type[sol::base_classes] = sol::bases<Creature>();
 
-	lua_man.new_usertype<Player>
-		("Player",
-			"getCreature", &Player::getCreature,
-			"getPlayer", &Player::getPlayer,
-			"getMonster", &Player::getMonster,
-			"getHealthPoints", &Player::getHealthPoints,
-			"getMaxHealth", &Player::getMaxHealthPoints,
-			"getManaPoints", &Player::getManaPoints,
-			"getMaxMana", &Player::getMaxManaPoints,
-			"getExp", &Player::getExperiencePoints,
-			"getExpToNextLevel", &Player::getExpToNextLevel,
-			sol::base_classes, sol::bases<Creature>());
 }
