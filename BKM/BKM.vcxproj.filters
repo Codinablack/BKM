@@ -58,5 +58,8 @@
     <ClInclude Include="source\networkmanager.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networkcontroller.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

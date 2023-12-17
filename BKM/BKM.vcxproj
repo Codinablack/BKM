@@ -140,6 +140,7 @@
     <ClInclude Include="source\enums.hpp" />
     <ClInclude Include="source\globals.hpp" />
     <ClInclude Include="source\monster.hpp" />
+    <ClInclude Include="source\networkcontroller.hpp" />
     <ClInclude Include="source\networkmanager.hpp" />
     <ClInclude Include="source\npc.hpp" />
     <ClInclude Include="source\player.hpp" />
