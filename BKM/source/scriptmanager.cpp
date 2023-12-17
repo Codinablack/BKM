@@ -408,7 +408,7 @@ void ScriptManager::registerUserTypes() {
 	creature_type["getPlayer"] = &Creature::getPlayer;
 	creature_type[sol::base_classes] = sol::bases<Thing>();
 
-	sol::usertype<Player> player_type = lua_man.new_usertype<Player>("Player", sol::constructors < Player(sol::this_state)>());
+	sol::usertype<Player> player_type = lua_man.new_usertype<Player>("Player", sol::constructors<Player(sol::this_state)>());
 	player_type["getPlayer"] = &Player::getPlayer;
 	player_type["getMonster"] = &Player::getMonster;
 	player_type["getHealthPoints"] = &Player::getHealthPoints;

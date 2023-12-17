@@ -3,7 +3,7 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Player : public Creature {
+class Player : public virtual Creature {
 public:
 	Player() = default;
 	Player(sol::this_state ts) {
@@ -22,7 +22,7 @@ public:
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
 
-	std::shared_ptr<Player> getPlayer() final override { return std::shared_ptr<Player>(this); }
+	std::shared_ptr<Player> getPlayer() final override { return std::dynamic_pointer_cast<Player>(getCreature()); }
 
 protected:
 

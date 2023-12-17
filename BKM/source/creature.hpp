@@ -8,8 +8,7 @@ class Player;
 class Monster;
 class Npc;
 
-class Creature : public virtual Thing
-{
+class Creature : public virtual Thing {
 public:
 	Creature() = default;
 	Creature(sol::this_state ts) {
@@ -27,7 +26,7 @@ public:
 	Creature(const Creature&) = delete;
 	Creature& operator=(const Creature&) = delete;
 
-	std::shared_ptr<Creature> getCreature() override final { return std::shared_ptr<Creature>(this); }
+	std::shared_ptr<Creature> getCreature() override final { return std::dynamic_pointer_cast<Creature>(getThing()); }
 	virtual std::shared_ptr<Player> getPlayer() { return nullptr; }
 	virtual std::shared_ptr<Npc> getNpc() { return nullptr; }
 	virtual std::shared_ptr<Monster> getMonster() { return nullptr; }
