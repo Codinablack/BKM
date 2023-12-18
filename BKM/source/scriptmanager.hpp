@@ -12,7 +12,7 @@ class ScriptManager
 {
 public:
     void init();
-	void loadScriptDirectory(const std::filesystem::path directory);
+	void loadScriptDirectory();
 	bool loadConfigFile();
 	void registerConfig();
 	void createConfigTree();
@@ -21,11 +21,11 @@ public:
 	void setConfigKey(const std::string& key, const ConfigKey& value);
     static ScriptManager* getManager();
 	void destroyManager();
-	void deinit();
+	void shutdown();
 
 protected:
 	ScriptManager() = default;
-	~ScriptManager() = default;
+	~ScriptManager();
 
 private:
 	static ScriptManager* sm_instance;

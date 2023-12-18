@@ -17,16 +17,21 @@ ScriptManager *ScriptManager::getManager() {
 	if (sm_instance == nullptr)
 	{
 		sm_instance = new ScriptManager();
+		// should possibly start init() here?
 	}
 	return sm_instance;
 }
 
 void ScriptManager::destroyManager() {
-	deinit();
+	shutdown();
 	// should be unlock here I think. 
 	std::lock_guard<std::mutex> unlock(sm_mutex);
 	delete sm_instance;
 	sm_instance = nullptr;
+}
+
+ScriptManager::~ScriptManager() {
+	destroyManager();
 }
 
 void ScriptManager::init() {
@@ -35,26 +40,22 @@ void ScriptManager::init() {
 	{
 		std::cout << "Failed to load config.lua" << "\n";
 	}
-
 	script_directory = std::filesystem::current_path();
 	registerUserTypes();
 	createConfigTree();
 	registerConfig();
-
 }
 
 // TODO
-// deregister user types
-// deregister config
-// destroy config tree
-void ScriptManager::deinit() {
+// ensure all lua memory is really freed.
+void ScriptManager::shutdown() {
 	lua_man.clear_package_loaders();
 	lua_man.collect_garbage();
 	lua_man.~state();
 }
 
-void ScriptManager::loadScriptDirectory(const std::filesystem::path directory) {
-    for (const auto& entry : std::filesystem::recursive_directory_iterator(directory)) {
+void ScriptManager::loadScriptDirectory() {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(script_directory)) {
         if (entry.is_regular_file() && entry.path().extension() == ".lua") {
 			try
 			{
@@ -154,7 +155,6 @@ void ScriptManager::registerConfig() {
 			setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
 			script_directory = script_directory / ScriptDirectory;
 			script_directory.make_preferred();
-			loadScriptDirectory(script_directory);
 		}
 		else
 		{
