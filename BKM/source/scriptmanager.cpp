@@ -6,6 +6,7 @@
 #include "player.hpp"
 #include "monster.hpp"
 #include "npc.hpp"
+#include "console.hpp"
 
 
 ScriptManager* ScriptManager::sm_instance = nullptr;
