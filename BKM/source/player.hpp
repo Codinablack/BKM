@@ -3,7 +3,7 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Player : public virtual Creature {
+class Player : public std::enable_shared_from_this<Player>, public virtual Creature {
 public:
 	Player() = default;
 	Player(sol::this_state ts) {
@@ -18,11 +18,7 @@ public:
 	}
 	~Player() = default;
 
-	// non-copyable
-	Player(const Player&) = delete;
-	Player& operator=(const Player&) = delete;
-
-	std::shared_ptr<Player> getPlayer() final override { return std::dynamic_pointer_cast<Player>(getCreature()); }
+	auto getPlayer() { return std::shared_ptr<Player>(this); }
 
 protected:
 

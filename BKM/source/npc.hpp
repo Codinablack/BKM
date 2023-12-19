@@ -3,7 +3,7 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Npc : public Creature {
+class Npc : public std::enable_shared_from_this<Npc>, public Creature {
 public:
 	Npc() = default;
 	Npc(sol::this_state ts) {
@@ -17,11 +17,8 @@ public:
 		assert(&self == this);
 	}
 	~Npc() = default;
-	// non-copyable
-	Npc(const Npc&) = delete;
-	Npc& operator=(const Npc&) = delete;
 
-	std::shared_ptr<Npc> getNpc() final override { return std::dynamic_pointer_cast<Npc>(getCreature()); }
+	auto getNpc() { return std::shared_ptr<Npc>(this); }
 
 private:
 

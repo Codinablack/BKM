@@ -237,17 +237,12 @@ void ScriptManager::setConfigKey(const std::string& key, const ConfigKey& value)
 void ScriptManager::registerUserTypes() {
 	/// constructorlist example.		sol::constructors<vector(),vector(float),void(float, float)>	clist;
 	sol::usertype<Thing> thing_type = lua_man.new_usertype<Thing>("Thing", sol::call_constructor, sol::factories([]() {return new Thing(); }));
-	thing_type["getItem"] = &Thing::getItem;
-	thing_type["getCreature"] = &Thing::getCreature;
 
-	sol::usertype<Creature> creature_type = lua_man.new_usertype<Creature>("Creature", sol::constructors<Creature(sol::this_state)>());
-	creature_type["getCreature"] = &Creature::getCreature;
-	creature_type["getPlayer"] = &Creature::getPlayer;
+	sol::usertype<Creature> creature_type = lua_man.new_usertype<Creature>("Creature", sol::call_constructor, sol::factories([]() {return new Creature(); }));
 	creature_type[sol::base_classes] = sol::bases<Thing>();
 
-	sol::usertype<Player> player_type = lua_man.new_usertype<Player>("Player", sol::constructors<Player(sol::this_state)>());
+	sol::usertype<Player> player_type = lua_man.new_usertype<Player>("Player", sol::call_constructor, sol::factories([]() {return new Player(); }));
 	player_type["getPlayer"] = &Player::getPlayer;
-	player_type["getMonster"] = &Player::getMonster;
 	player_type["getHealthPoints"] = &Player::getHealthPoints;
 	player_type[sol::base_classes] = sol::bases<Creature>();
 

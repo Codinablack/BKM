@@ -23,15 +23,6 @@ public:
 	}
 	virtual ~Creature() noexcept = default;
 
-	Creature(const Creature&) = delete;
-	Creature& operator=(const Creature&) = delete;
-
-	std::shared_ptr<Creature> getCreature() override final { return std::dynamic_pointer_cast<Creature>(getThing()); }
-	virtual std::shared_ptr<Player> getPlayer() { return nullptr; }
-	virtual std::shared_ptr<Npc> getNpc() { return nullptr; }
-	virtual std::shared_ptr<Monster> getMonster() { return nullptr; }
-
-
 	uint32_t const getHealthPoints() { return c_health.getCurrentPoints(); }
 	uint32_t const getMaxHealthPoints() { return c_health.getMaxPoints(); }
 	uint32_t const getManaPoints() { return c_mana.getCurrentPoints(); }

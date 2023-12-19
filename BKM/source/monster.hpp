@@ -3,7 +3,7 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Monster : public Creature {
+class Monster : public std::enable_shared_from_this<Monster>, public Creature {
 public:
 	Monster() = default;
 	Monster(sol::this_state ts) {
@@ -17,11 +17,8 @@ public:
 		assert(&self == this);
 	}
 	~Monster() = default;
-	// non-copyable
-	Monster(const Monster&) = delete;
-	Monster& operator=(const Monster&) = delete;
 
-	std::shared_ptr<Monster> getMonster() final override { return std::dynamic_pointer_cast<Monster>(getCreature()); }
+	auto getMonster() { return std::shared_ptr<Monster>(this); }
 
 private:
 };
