@@ -39,7 +39,7 @@ void ScriptManager::init() {
 	lua_man.open_libraries(sol::lib::base, sol::lib::package, sol::lib::os, sol::lib::table, sol::lib::string, sol::lib::io, sol::lib::debug, sol::lib::math);
 	if (!loadConfigFile())
 	{
-		std::cout << "Failed to load config.lua" << "\n";
+		BK::Console::Print << "Failed to load config.lua" << "\n";
 	}
 	script_directory = std::filesystem::current_path();
 	registerUserTypes();
@@ -64,7 +64,7 @@ void ScriptManager::loadScriptDirectory() {
 			}
 			catch (const sol::error& e)
 			{
-				std::cout << "an unexpected error has occurred: " << e.what() << "\n";
+				BK::Console::Print << "an unexpected error has occurred: " << e.what() << "\n";
 			}
         }
     }
@@ -78,8 +78,8 @@ bool ScriptManager::loadConfigFile() {
 	}
 	catch (const sol::error& e)
 	{
-		std::cout << "Unable to load config.lua file make sure its in same folder as the server \n";
-		std::cout << "The specific error thrown when loading config.lua is : " << e.what() << "\n";
+		BK::Console::Print << "Unable to load config.lua file make sure its in same folder as the server \n";
+		BK::Console::Print << "The specific error thrown when loading config.lua is : " << e.what() << "\n";
 		return false;
 	}
 }
@@ -106,284 +106,120 @@ void ScriptManager::createConfigTree() {
 }
 
 void ScriptManager::registerConfig() {
-	try
-	{
-		auto ServerName = lua_man.get<std::string>("ServerName");
-		if (!ServerName.empty())
-		{	// could possibly need further validation here
-			std::cout << "Current ServerName: " << getConfigKey("ServerName").value << "\n";
-			setConfigKey("ServerName", ConfigKey(ConfigKeyType::string, "ServerName", ServerName));
-			std::cout << "New ServerName: " << getConfigKey("ServerName").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("ServerName not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+
+	auto ServerName = lua_man.get<std::string>("ServerName");
+	auto ServerPort = lua_man.get<int>("ServerPort");
+	auto ScriptDirectory = lua_man.get<std::string>("ScriptDirectory");
+	auto LoginProtocolPort = lua_man.get<int>("LoginProtocolPort");
+	auto GameProtocolPort = lua_man.get<int>("GameProtocolPort");
+	auto StatusProtocolPort = lua_man.get<int>("StatusProtocolPort");
+	auto MaxPlayers = lua_man.get<int>("MaxPlayers");
+	auto MaxSameIPConnection = lua_man.get<int>("MaxSameIPConnection");
+	auto MaxConnection = lua_man.get<int>("MaxConnection");
+	auto MaxConnectionsPerIP = lua_man.get<int>("MaxConnectionsPerIP");
+	auto MaxConnectionsPerAccount = lua_man.get<int>("MaxConnectionsPerAccount");
+	auto MaxConnectionsPerCharacter = lua_man.get<int>("MaxConnectionsPerCharacter");
+
+	sol::optional<bool> BindOnlyGlobalAddress = lua_man.get<bool>("BindOnlyGlobalAddress");
+	sol::optional<bool> OnePlayerOnlinePerAccount = lua_man.get<bool>("OnePlayerOnlinePerAccount");
+	sol::optional<bool> AllowMultiLogin = lua_man.get<bool>("AllowMultiLogin");
+
+	if (!ServerName.empty())
+	{	// could possibly need further validation here and in all these if checks.
+		setConfigKey("ServerName", ConfigKey(ConfigKeyType::string, "ServerName", ServerName));
 	}
 
-	try
+	if (ServerPort != 0)
 	{
-		auto ServerPort = lua_man.get<int>("ServerPort");
-		if (ServerPort != 0)
-		{
-			std::cout << "Current ServerPort: " << getConfigKey("ServerPort").value << "\n";
-			setConfigKey("ServerPort", ConfigKey(ConfigKeyType::integer, "ServerPort", std::to_string(ServerPort)));
-			std::cout << "ServerPort: " << getConfigKey("ServerPort").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("ServerPort not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("ServerPort", ConfigKey(ConfigKeyType::integer, "ServerPort", std::to_string(ServerPort)));
 	}
 
-	try
+	if (!ScriptDirectory.empty())
 	{
-		auto ScriptDirectory = lua_man.get<std::string>("ScriptDirectory");
-		if (!ScriptDirectory.empty())
-		{
-			// MAY NEED FURTHER VALIDATION \\
-			// we attach the relative path located in config for script directory
-			// to the end of the initialized script_directory path (current dir).
-			// then we set the slashes and backslashes to the current OS with make_preferred.
-			setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
-			script_directory = script_directory / ScriptDirectory;
-			script_directory.make_preferred();
-		}
-		else
-		{
-			throw std::runtime_error("ScriptDirectory not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		// MAY NEED FURTHER VALIDATION \\
+		// we attach the relative path located in config for script directory
+		// to the end of the initialized script_directory path (current dir).
+		// then we set the slashes and backslashes to the current OS with make_preferred.
+		setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
+		script_directory = script_directory / ScriptDirectory;
+		script_directory.make_preferred();
 	}
 
-	try
+	if (BindOnlyGlobalAddress != std::nullopt)
 	{
-		sol::optional<bool> BindOnlyGlobalAddress = lua_man.get<bool>("BindOnlyGlobalAddress");
-		if (BindOnlyGlobalAddress != std::nullopt)
-		{
-			config_registry["BindOnlyGlobalAddress"].value = *BindOnlyGlobalAddress;
-			setConfigKey("BindOnlyGlobalAddress", ConfigKey(ConfigKeyType::boolean, "BindOnlyGlobalAddress", *BindOnlyGlobalAddress ? "true" : "false"));
-			std::cout << "BindOnlyGlobalAddress: " << getConfigKey("BindOnlyGlobalAddress").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("BindOnlyGlobalAddress not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("BindOnlyGlobalAddress", ConfigKey(ConfigKeyType::boolean, "BindOnlyGlobalAddress", *BindOnlyGlobalAddress ? "true" : "false"));
 	}
 
-	try
+	if (LoginProtocolPort != 0)
 	{
-		auto LoginProtocolPort = lua_man.get<int>("LoginProtocolPort");
-		if (LoginProtocolPort != 0)
-		{
-			setConfigKey("LoginProtocolPort", ConfigKey(ConfigKeyType::integer, "LoginProtocolPort", std::to_string(LoginProtocolPort)));
-			std::cout << "LoginProtocolPort: " << getConfigKey("LoginProtocolPort").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("LoginProtocolPort not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("LoginProtocolPort", ConfigKey(ConfigKeyType::integer, "LoginProtocolPort", std::to_string(LoginProtocolPort)));
 	}
 
-	try
+	if (GameProtocolPort != 0)
 	{
-		auto GameProtocolPort = lua_man.get<int>("GameProtocolPort");
-		if (GameProtocolPort != 0)
-		{
-			setConfigKey("GameProtocolPort", ConfigKey(ConfigKeyType::integer, "GameProtocolPort", std::to_string(GameProtocolPort)));
-			std::cout << "GameProtocolPort: " << getConfigKey("GameProtocolPort").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("GameProtocolPort not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("GameProtocolPort", ConfigKey(ConfigKeyType::integer, "GameProtocolPort", std::to_string(GameProtocolPort)));
 	}
 
-	try
+	if (StatusProtocolPort != 0)
 	{
-		auto StatusProtocolPort = lua_man.get<int>("StatusProtocolPort");
-		if (StatusProtocolPort != 0)
-		{
-			setConfigKey("StatusProtocolPort", ConfigKey(ConfigKeyType::integer, "StatusProtocolPort", std::to_string(StatusProtocolPort)));
-			std::cout << "StatusProtocolPort: " << getConfigKey("StatusProtocolPort").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("StatusProtocolPort not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("StatusProtocolPort", ConfigKey(ConfigKeyType::integer, "StatusProtocolPort", std::to_string(StatusProtocolPort)));
 	}
 
-	try
+	if (MaxPlayers != 0)
 	{
-		auto MaxPlayers = lua_man.get<int>("MaxPlayers");
-		if (MaxPlayers != 0)
-		{
-			setConfigKey("MaxPlayers", ConfigKey(ConfigKeyType::integer, "MaxPlayers", std::to_string(MaxPlayers)));
-			std::cout << "MaxPlayers: " << getConfigKey("MaxPlayers").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxPlayers not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("MaxPlayers", ConfigKey(ConfigKeyType::integer, "MaxPlayers", std::to_string(MaxPlayers)));
 	}
 
-	try
+	if (OnePlayerOnlinePerAccount != std::nullopt)
 	{
-		sol::optional<bool> OnePlayerOnlinePerAccount = lua_man.get<bool>("OnePlayerOnlinePerAccount");
-		if (OnePlayerOnlinePerAccount != std::nullopt)
-		{
-			setConfigKey("OnePlayerOnlinePerAccount", ConfigKey(ConfigKeyType::boolean, "OnePlayerOnlinePerAccount", *OnePlayerOnlinePerAccount ? "true" : "false")); 
-			std::cout << "OnePlayerOnlinePerAccount: " << getConfigKey("OnePlayerOnlinePerAccount").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("OnePlayerOnlinePerAccount not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("OnePlayerOnlinePerAccount", ConfigKey(ConfigKeyType::boolean, "OnePlayerOnlinePerAccount", *OnePlayerOnlinePerAccount ? "true" : "false")); 
 	}
 
-	try
+	if (AllowMultiLogin != std::nullopt)
 	{
-		sol::optional<bool> AllowMultiLogin = lua_man.get<bool>("AllowMultiLogin");
-		if (AllowMultiLogin != std::nullopt)
-		{
-			setConfigKey("AllowMultiLogin", ConfigKey(ConfigKeyType::boolean, "AllowMultiLogin", *AllowMultiLogin ? "true" : "false"));
-			std::cout << "AllowMultiLogin: " << getConfigKey("AllowMultiLogin").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("AllowMultiLogin not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("AllowMultiLogin", ConfigKey(ConfigKeyType::boolean, "AllowMultiLogin", *AllowMultiLogin ? "true" : "false"));
 	}
 
-	try
+	if (MaxSameIPConnection != 0)
 	{
-		auto MaxSameIPConnection = lua_man.get<int>("MaxSameIPConnection");
-		if (MaxSameIPConnection != 0)
-		{
-			setConfigKey("MaxSameIPConnection", ConfigKey(ConfigKeyType::integer, "MaxSameIPConnection", std::to_string(MaxSameIPConnection)));
-			std::cout << "MaxSameIPConnection: " << getConfigKey("MaxSameIPConnection").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxSameIPConnection not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("MaxSameIPConnection", ConfigKey(ConfigKeyType::integer, "MaxSameIPConnection", std::to_string(MaxSameIPConnection)));
 	}
 
-	try
+	if (MaxConnection != 0)
 	{
-		auto MaxConnection = lua_man.get<int>("MaxConnection");
-		if (MaxConnection != 0)
-		{
-			setConfigKey("MaxConnection", ConfigKey(ConfigKeyType::integer, "MaxConnection", std::to_string(MaxConnection)));
-			std::cout << "MaxConnection: " << getConfigKey("MaxConnection").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxConnection not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("MaxConnection", ConfigKey(ConfigKeyType::integer, "MaxConnection", std::to_string(MaxConnection)));
 	}
 
-	try
+	if (MaxConnectionsPerIP != 0)
 	{
-
-		auto MaxConnectionsPerIP = lua_man.get<int>("MaxConnectionsPerIP");
-		if (MaxConnectionsPerIP != 0)
-		{
-			setConfigKey("MaxConnectionsPerIP", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerIP", std::to_string(MaxConnectionsPerIP)));
-			std::cout << "MaxConnectionsPerIP: " << getConfigKey("MaxConnectionsPerIP").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxConnectionsPerIP not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("MaxConnectionsPerIP", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerIP", std::to_string(MaxConnectionsPerIP)));
 	}
 
-	try
+	if (MaxConnectionsPerAccount != 0)
 	{
-		auto MaxConnectionsPerAccount = lua_man.get<int>("MaxConnectionsPerAccount");
-		if (MaxConnectionsPerAccount != 0)
-		{
-			setConfigKey("MaxConnectionsPerAccount", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerAccount", std::to_string(MaxConnectionsPerAccount)));
-			std::cout << "MaxConnectionsPerAccount: " << getConfigKey("MaxConnectionsPerAccount").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxConnectionsPerAccount not found in config.lua");
-		}
-	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
+		setConfigKey("MaxConnectionsPerAccount", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerAccount", std::to_string(MaxConnectionsPerAccount)));
 	}
 
-	try
+	if (MaxConnectionsPerCharacter != 0)
 	{
-		auto MaxConnectionsPerCharacter = lua_man.get<int>("MaxConnectionsPerCharacter");
-		if (MaxConnectionsPerCharacter != 0)
-		{
-			setConfigKey("MaxConnectionsPerCharacter", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerCharacter", std::to_string(MaxConnectionsPerCharacter)));
-			std::cout << "MaxConnectionsPerCharacter: " << getConfigKey("MaxConnectionsPerCharacter").value << "\n";
-		}
-		else
-		{
-			throw std::runtime_error("MaxConnectionsPerCharacter not found in config.lua");
-		}
+		setConfigKey("MaxConnectionsPerCharacter", ConfigKey(ConfigKeyType::integer, "MaxConnectionsPerCharacter", std::to_string(MaxConnectionsPerCharacter)));
 	}
-	catch (const sol::error& e)
-	{
-		std::cout << "an expected error has occurred: " << e.what() << "\n";
-	}
+
+	BK::Console::Print << "ServerName: " << getConfigKey("ServerName").value << "\n";
+	BK::Console::Print << "ServerPort: " << getConfigKey("ServerPort").value << "\n";
+	BK::Console::Print << "ScriptDirectory: " << getConfigKey("ScriptDirectory").value << "\n";
+	BK::Console::Print << "BindOnlyGlobalAddress: " << getConfigKey("BindOnlyGlobalAddress").value << "\n";
+	BK::Console::Print << "LoginProtocolPort: " << getConfigKey("LoginProtocolPort").value << "\n";
+	BK::Console::Print << "GameProtocolPort: " << getConfigKey("GameProtocolPort").value << "\n";
+	BK::Console::Print << "StatusProtocolPort: " << getConfigKey("StatusProtocolPort").value << "\n";
+	BK::Console::Print << "MaxPlayers: " << getConfigKey("MaxPlayers").value << "\n";
+	BK::Console::Print << "OnePlayerOnlinePerAccount: " << getConfigKey("OnePlayerOnlinePerAccount").value << "\n";
+	BK::Console::Print << "AllowMultiLogin: " << getConfigKey("AllowMultiLogin").value << "\n";
+	BK::Console::Print << "MaxSameIPConnection: " << getConfigKey("MaxSameIPConnection").value << "\n";
+	BK::Console::Print << "MaxConnection: " << getConfigKey("MaxConnection").value << "\n";
+	BK::Console::Print << "MaxConnectionsPerIP: " << getConfigKey("MaxConnectionsPerIP").value << "\n";
+	BK::Console::Print << "MaxConnectionsPerAccount: " << getConfigKey("MaxConnectionsPerAccount").value << "\n";
+	BK::Console::Print << "MaxConnectionsPerCharacter: " << getConfigKey("MaxConnectionsPerCharacter").value << "\n";
 }
 
 void ScriptManager::setConfigKey(const std::string& key, const ConfigKey& value)

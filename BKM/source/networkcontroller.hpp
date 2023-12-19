@@ -10,6 +10,8 @@
 #include <string>
 #include <iostream>
 
+#include "console.hpp"
+
 
 /// <summary>
 /// Here we are predefining our pointertypes to save on some repeated and extended typing
@@ -160,15 +162,15 @@ public:
 		tcpSocket->connect(tcp_endpoint, tcpError);
 
 		if (!udpError) {
-			std::cout << "Udp Connection Established with ip address : " << getAddress() << " on port : " << getAuxPort() << std::endl;
+			BK::Console::Print << "Udp Connection Established with ip address : " << getAddress() << " on port : " << getAuxPort() << std::endl;
 		} else {
-			std::cout << "Udp Connection Failed with error : " << udpError.message() << std::endl;
+			BK::Console::Print << "Udp Connection Failed with error : " << udpError.message() << std::endl;
 		}
 
 		if (!tcpError) {
-			std::cout << "Tcp Connection Established with ip address : " << getAddress() << " on port : " << getMainPort() << std::endl;
+			BK::Console::Print << "Tcp Connection Established with ip address : " << getAddress() << " on port : " << getMainPort() << std::endl;
 		} else {
-			std::cout << "Tcp Connection Failed with error : " << tcpError.message() << std::endl;
+			BK::Console::Print << "Tcp Connection Failed with error : " << tcpError.message() << std::endl;
 		}
 
 	}
