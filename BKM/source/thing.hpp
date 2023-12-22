@@ -8,21 +8,16 @@
 class Item;
 class Creature;
 
-class Thing {
+class Thing : public std::enable_shared_from_this<Thing>
+{
 
 public:
-	Thing() = default;
-	Thing(sol::this_state ts) {
-		lua_State* L = ts;
-		// references the object that called this function
-		// in constructors:
-		sol::stack_object selfobj(L, 1);
-
-		// definitely the same
-		Thing& self = selfobj.as<Thing>();
-		assert(&self == this);
-	}
+	Thing() {};
 	virtual ~Thing() = default;
+
+private:
+
+
 };
 
 

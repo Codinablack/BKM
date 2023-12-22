@@ -3,27 +3,23 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Player : public std::enable_shared_from_this<Player>, public virtual Creature {
+class Player : public virtual Creature {
 public:
 	Player() = default;
-	Player(sol::this_state ts) {
-		lua_State* L = ts;
-		// references the object that called this function
-		// in constructors:
-		sol::stack_object selfobj(L, 1);
-
-		// definitely the same
-		Player& self = selfobj.as<Player>();
-		assert(&self == this);
-	}
 	~Player() = default;
 
-	auto getPlayer() { return std::shared_ptr<Player>(this); }
+	// non-copyable
+	Player(const Player&) = delete;
+	Player& operator=(const Player&) = delete;
+
+	virtual std::shared_ptr<Player> getPlayer() final override {
+		return std::dynamic_pointer_cast<Player>(shared_from_this());
+	}
+
 
 protected:
 
 private:
-
 };
 
 #endif

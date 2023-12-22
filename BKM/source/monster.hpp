@@ -3,22 +3,18 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Monster : public std::enable_shared_from_this<Monster>, public Creature {
+class Monster : public virtual Creature {
 public:
 	Monster() = default;
-	Monster(sol::this_state ts) {
-		lua_State* L = ts;
-		// references the object that called this function
-		// in constructors:
-		sol::stack_object selfobj(L, 1);
-
-		// definitely the same
-		Monster& self = selfobj.as<Monster>();
-		assert(&self == this);
-	}
 	~Monster() = default;
 
-	auto getMonster() { return std::shared_ptr<Monster>(this); }
+	// non-copyable
+	Monster(const Monster&) = delete;
+	Monster& operator=(const Monster&) = delete;
+
+	virtual std::shared_ptr<Monster> getMonster() final override {
+		return std::dynamic_pointer_cast<Monster>(shared_from_this());
+	}
 
 private:
 };

@@ -146,7 +146,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual GameServer_ptr getGameServer() {
-		return std::dynamic_pointer_cast<GameServer>(getNetServer());
+		return std::dynamic_pointer_cast<GameServer>(shared_from_this());
 	}
 
 	virtual void init() override {
@@ -195,7 +195,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual LoginServer_ptr getLoginServer() {
-		return std::dynamic_pointer_cast<LoginServer>(getNetServer());
+		return std::dynamic_pointer_cast<LoginServer>(shared_from_this());
 	}
 
 	virtual void init() override {}
@@ -220,7 +220,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual NetClient_ptr getNetClient() {
-		return std::dynamic_pointer_cast<NetClient>(getBasicNetController());
+		return std::dynamic_pointer_cast<NetClient>(shared_from_this());
 	}
 
 	virtual void init() override {}
@@ -245,7 +245,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual LoginClient_ptr getLoginClient() {
-		return std::dynamic_pointer_cast<LoginClient>(getNetClient());
+		return std::dynamic_pointer_cast<LoginClient>(shared_from_this());
 	}
 
 	virtual void init() override {}
@@ -270,7 +270,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual GameClient_ptr getGameClient() {
-		return std::dynamic_pointer_cast<GameClient>(getNetClient());
+		return std::dynamic_pointer_cast<GameClient>(shared_from_this());
 	}
 
 	virtual void init() override {}
@@ -295,7 +295,7 @@ public:
 	}
 	// This serves as a get.self function
 	virtual DatabaseClient_ptr getDatabaseClient() {
-		return std::dynamic_pointer_cast<DatabaseClient>(getNetClient());
+		return std::dynamic_pointer_cast<DatabaseClient>(shared_from_this());
 	}
 
 	virtual void init() override {}
