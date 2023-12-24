@@ -3,7 +3,7 @@
 
 #include "coloredstream.hpp"
 
-namespace BK {
+namespace BKM {
 
 	namespace Console {
 		using namespace colored_stream;

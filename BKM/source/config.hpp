@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace BK {
+namespace BKM {
 	namespace Config {
 		static constexpr std::string_view ServerName = "BlackMoon";
 	}

@@ -79,5 +79,8 @@
     <ClInclude Include="source\vocation.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\itemslot.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

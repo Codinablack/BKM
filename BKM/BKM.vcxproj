@@ -144,6 +144,10 @@
     <ClInclude Include="source\item.hpp" />
     <ClInclude Include="source\enums.hpp" />
     <ClInclude Include="source\globals.hpp" />
+    <ClInclude Include="source\itemslot.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="source\monster.hpp" />
     <ClInclude Include="source\networkcontroller.hpp" />
     <ClInclude Include="source\networkmanager.hpp" />

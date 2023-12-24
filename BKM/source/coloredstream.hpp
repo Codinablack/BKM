@@ -8,7 +8,7 @@
 #include <string>
 #include <variant>
 
-namespace BK {
+namespace BKM {
     namespace colored_stream {
 
         enum ClassicColor { RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE };

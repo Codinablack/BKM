@@ -10,6 +10,7 @@
 
 
 int main() {
+	using namespace BKM;
 	ScriptManager& scriptMan = *ScriptManager::getManager();
 	scriptMan.init();
 	// we seperated the load from the init for threading later...

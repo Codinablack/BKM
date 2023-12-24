@@ -11,13 +11,10 @@ local pally = Vocation()
 
 knight:setId(1)
 knight:setName("Knight")
-
 sorc:setId(2)
 sorc:setName("Sorceror")
-
 druid:setId(3)
 druid:setName("Druid")
-
 pally:setId(4)
 pally:setName("Paladin")
 
@@ -28,9 +25,7 @@ knight:register()
 sorc:register()
 druid:register()
 pally:register()
-
 print(thing)
-
 print(creature:getCreature())
 print(player:getHealthPoints())
 print(player:getPlayer())

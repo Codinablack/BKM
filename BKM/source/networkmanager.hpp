@@ -10,26 +10,28 @@
 
 #include "networkcontroller.hpp"
 
-class NetworkManager {
-public:
-  static NetworkManager& getInstance();
+namespace BKM {
 
-  void startServer(const std::string& address, int port);
-  static void stopServer();
+	class NetworkManager {
+	public:
+		static NetworkManager& getInstance();
 
-private:
-  // Private constructor to enforce singleton pattern
-  NetworkManager() = default;
+		void startServer(const std::string& address, int port);
+		static void stopServer();
 
-  // Sockets
-  UdpSocket_ptr nm_udp_socket;
-  TcpSocket_ptr nm_tcp_socket;
-  TcpSocket_ptr login_socket;
-  TcpSocket_ptr database_socket;
+	private:
+		// Private constructor to enforce singleton pattern
+		NetworkManager() = default;
 
-  // Prevent copy construction and assignment
-  NetworkManager(const NetworkManager&) = delete;
-  NetworkManager& operator=(const NetworkManager&) = delete;
-};
+		// Sockets
+		UdpSocket_ptr nm_udp_socket;
+		TcpSocket_ptr nm_tcp_socket;
+		TcpSocket_ptr login_socket;
+		TcpSocket_ptr database_socket;
 
+		// Prevent copy construction and assignment
+		NetworkManager(const NetworkManager&) = delete;
+		NetworkManager& operator=(const NetworkManager&) = delete;
+	};
+}
 #endif

@@ -3,7 +3,7 @@
 
 #include <map>
 
-namespace BK {
+namespace BKM {
 
 	class Vocation {
 	public:
@@ -49,4 +49,4 @@ namespace BK {
 	};
 }
 
-#endif
+#endif //_VOCATION_HPP

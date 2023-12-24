@@ -3,21 +3,23 @@
 #include <iostream>
 #include "creature.hpp"
 
-class Npc : public Creature {
-public:
-	Npc() = default;
-	~Npc() = default;
+namespace BKM {
 
-	// non-copyable
-	Npc(const Npc&) = delete;
-	Npc& operator=(const Npc&) = delete;
+	class Npc : public Creature {
+	public:
+		Npc() = default;
+		~Npc() = default;
 
-	virtual std::shared_ptr<Npc> getNpc() final override {
-		return std::dynamic_pointer_cast<Npc>(shared_from_this());
-	}
+		// non-copyable
+		Npc(const Npc&) = delete;
+		Npc& operator=(const Npc&) = delete;
 
-private:
+		virtual std::shared_ptr<Npc> getNpc() final override {
+			return std::dynamic_pointer_cast<Npc>(shared_from_this());
+		}
 
-};
+	private:
 
+	};
+}
 #endif

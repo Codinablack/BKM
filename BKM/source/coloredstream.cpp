@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace BK {
+namespace BKM {
     namespace colored_stream {
         const std::string ColoredStream::RESETTER = "\u001b[0m";
 

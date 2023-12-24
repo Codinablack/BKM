@@ -5,20 +5,22 @@
 #define SOL_ALL_SAFETIES_ON 1
 #include <sol/sol.hpp>
 
-class Item;
-class Creature;
+namespace BKM {
 
-class Thing : public std::enable_shared_from_this<Thing>
-{
+	class Item;
+	class Creature;
 
-public:
-	Thing() {};
-	virtual ~Thing() = default;
+	class Thing : public std::enable_shared_from_this<Thing>
+	{
 
-private:
+	public:
+		Thing() {};
+		virtual ~Thing() = default;
+
+	private:
 
 
-};
+	};
 
-
+}
 #endif

@@ -1,22 +1,28 @@
 #ifndef _MONSTER_HPP
 #define _MONSTER_HPP
+
 #include <iostream>
+
 #include "creature.hpp"
 
-class Monster : public virtual Creature {
-public:
-	Monster() = default;
-	~Monster() = default;
+namespace BKM {
 
-	// non-copyable
-	Monster(const Monster&) = delete;
-	Monster& operator=(const Monster&) = delete;
+	class Monster : public virtual Creature {
+	public:
+		Monster() = default;
+		~Monster() = default;
 
-	virtual std::shared_ptr<Monster> getMonster() final override {
-		return std::dynamic_pointer_cast<Monster>(shared_from_this());
-	}
+		// non-copyable
+		Monster(const Monster&) = delete;
+		Monster& operator=(const Monster&) = delete;
 
-private:
-};
+		virtual std::shared_ptr<Monster> getMonster() final override {
+			return std::dynamic_pointer_cast<Monster>(shared_from_this());
+		}
+
+	private:
+	};
+
+}
 
 #endif
