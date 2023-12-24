@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\coloredstream.hpp" />
+    <ClInclude Include="source\config.hpp" />
     <ClInclude Include="source\console.hpp" />
     <ClInclude Include="source\creature.hpp" />
     <ClInclude Include="source\item.hpp" />

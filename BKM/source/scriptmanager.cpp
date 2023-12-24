@@ -7,6 +7,7 @@
 #include "monster.hpp"
 #include "npc.hpp"
 #include "console.hpp"
+#include "config.hpp"
 
 
 ScriptManager* ScriptManager::sm_instance = nullptr;
@@ -30,6 +31,7 @@ void ScriptManager::destroyManager() {
 	delete sm_instance;
 	sm_instance = nullptr;
 }
+
 
 ScriptManager::~ScriptManager() {
 	destroyManager();
@@ -107,9 +109,9 @@ void ScriptManager::createConfigTree() {
 
 void ScriptManager::registerConfig() {
 
-	auto ServerName = lua_man.get<std::string>("ServerName");
+	auto ServerName = lua_man.get<std::string_view>("ServerName");
 	auto ServerPort = lua_man.get<int>("ServerPort");
-	auto ScriptDirectory = lua_man.get<std::string>("ScriptDirectory");
+	auto ScriptDirectory = lua_man.get<std::string_view>("ScriptDirectory");
 	auto LoginProtocolPort = lua_man.get<int>("LoginProtocolPort");
 	auto GameProtocolPort = lua_man.get<int>("GameProtocolPort");
 	auto StatusProtocolPort = lua_man.get<int>("StatusProtocolPort");
@@ -126,7 +128,7 @@ void ScriptManager::registerConfig() {
 
 	if (!ServerName.empty())
 	{	// could possibly need further validation here and in all these if checks.
-		setConfigKey("ServerName", ConfigKey(ConfigKeyType::string, "ServerName", ServerName));
+		setConfigKey("ServerName", ConfigKey(ConfigKeyType::string, "ServerName", static_cast<std::string>(ServerName)));
 	}
 
 	if (ServerPort != 0)
@@ -140,7 +142,7 @@ void ScriptManager::registerConfig() {
 		// we attach the relative path located in config for script directory
 		// to the end of the initialized script_directory path (current dir).
 		// then we set the slashes and backslashes to the current OS with make_preferred.
-		setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", ScriptDirectory));
+		setConfigKey("ScriptDirectory", ConfigKey(ConfigKeyType::string, "ScriptDirectory", static_cast<std::string>(ScriptDirectory)));
 		script_directory = script_directory / ScriptDirectory;
 		script_directory.make_preferred();
 	}
