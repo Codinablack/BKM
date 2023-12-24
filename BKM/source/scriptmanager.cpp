@@ -8,7 +8,7 @@
 #include "npc.hpp"
 #include "console.hpp"
 #include "config.hpp"
-
+#include "vocation.hpp"
 
 ScriptManager* ScriptManager::sm_instance = nullptr;
 std::mutex ScriptManager::sm_mutex;
@@ -238,6 +238,18 @@ void ScriptManager::setConfigKey(const std::string& key, const ConfigKey& value)
 
 void ScriptManager::registerUserTypes() {
 	/// constructorlist example.		sol::constructors<vector(),vector(float),void(float, float)>	clist;
+	/// sol documentation says I need to bind this way to avoid having to pass self as first argument.
+	///vocation_type.set_function("HpGain", &BK::Vocation::maxHealthPerLevel, BK::Vocation{});
+
+	sol::usertype<BK::Vocation> vocation_type = lua_man.new_usertype<BK::Vocation>("Vocation", sol::call_constructor, sol::factories([]() {return std::make_shared<BK::Vocation>(); }));
+	vocation_type["name"], vocation_type["getName"] = &BK::Vocation::getName;
+	vocation_type["setName"] = &BK::Vocation::setName;
+	vocation_type["id"], vocation_type["getId"] = &BK::Vocation::getId;
+	vocation_type["setId"] = &BK::Vocation::setId;
+	vocation_type["hpGain"], vocation_type["getHpGain"], vocation_type["healthGain"], vocation_type["getHealthGain"] = &BK::Vocation::getHealthGain;
+	vocation_type["setHpGain"], vocation_type["setHealthGain"] = &BK::Vocation::setHealthGain;
+	vocation_type["register"] = &BK::Vocation::save;
+
 	sol::usertype<Thing> thing_type = lua_man.new_usertype<Thing>("Thing", sol::call_constructor, sol::factories([]() {return std::make_shared<Thing>(); }));
 
 	sol::usertype<Creature> creature_type = lua_man.new_usertype<Creature>("Creature", sol::call_constructor, sol::factories([]() {return std::make_shared<Creature>(); }));

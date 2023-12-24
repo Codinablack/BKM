@@ -134,6 +134,7 @@
     <ClCompile Include="source\networkmanager.cpp" />
     <ClCompile Include="source\player.cpp" />
     <ClCompile Include="source\scriptmanager.cpp" />
+    <ClCompile Include="source\vocation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\coloredstream.hpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="source\pointbasedstat.hpp" />
     <ClInclude Include="source\scriptmanager.hpp" />
     <ClInclude Include="source\thing.hpp" />
+    <ClInclude Include="source\vocation.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
