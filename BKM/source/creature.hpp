@@ -31,18 +31,19 @@ namespace BKM {
 			return nullptr;
 		}
 
-		uint32_t const getHealthPoints() { return c_health.getCurrentPoints(); }
-		uint32_t const getMaxHealthPoints() { return c_health.getMaxPoints(); }
-		uint32_t const getManaPoints() { return c_mana.getCurrentPoints(); }
-		uint32_t const getMaxManaPoints() { return c_mana.getMaxPoints(); }
-		uint32_t const getExperiencePoints() { return c_exp.getCurrentPoints(); }
-		uint32_t const getExpToNextLevel() { return c_exp.getMaxPoints() - c_exp.getCurrentPoints(); }
+		uint64_t const getHealthPoints() { return creature_health.getCurrentPoints(); }
+		uint64_t const getMaxHealthPoints() { return creature_health.getMaxPoints(); }
+		uint64_t const getManaPoints() { return creature_mana.getCurrentPoints(); }
+		uint64_t const getMaxManaPoints() { return creature_mana.getMaxPoints(); }
+		uint64_t const getExperiencePoints() { return creature_exp.getCurrentPoints(); }
+		uint64_t const getExpToNextLevel() { return creature_exp.getMaxPoints() - creature_exp.getCurrentPoints(); }
 
 	private:
-		HealthPoints c_health;
-		ManaPoints c_mana;
-		ExperiencePoints c_exp;
-		SpeedPoints c_speed;
+		HealthPoints creature_health;
+		ManaPoints creature_mana;
+		EnergyPoints creature_energy;
+		ExperiencePoints creature_exp;
+		SpeedPoints creature_speed;
 
 	};
 } // BKM
