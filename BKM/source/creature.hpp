@@ -3,6 +3,7 @@
 
 #include "thing.hpp"
 #include "pointbasedstat.hpp"
+#include "skills.hpp"
 
 namespace BKM {
 
