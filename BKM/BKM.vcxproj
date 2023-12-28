@@ -143,10 +143,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="source\boss.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="source\coloredstream.hpp" />
     <ClInclude Include="source\config.hpp" />
     <ClInclude Include="source\console.hpp" />

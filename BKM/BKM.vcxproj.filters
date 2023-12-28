@@ -85,9 +85,6 @@
     <ClInclude Include="source\augment.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\boss.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\modifier.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
