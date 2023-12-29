@@ -46,6 +46,9 @@ namespace BKM {
 		ExperiencePoints creature_exp;
 		SpeedPoints creature_speed;
 
+		std::vector<PointBasedStat> creature_stats;
+		std::vector<LevelBasedSkill> creature_skills;
+
 	};
 } // BKM
 #endif
