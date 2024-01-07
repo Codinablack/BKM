@@ -154,10 +154,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="source\modifier.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="source\monster.hpp" />
     <ClInclude Include="source\networkcontroller.hpp" />
     <ClInclude Include="source\networkmanager.hpp" />
