@@ -85,10 +85,10 @@
     <ClInclude Include="source\augment.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\modifier.hpp">
+    <ClInclude Include="source\skills.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\skills.hpp">
+    <ClInclude Include="source\tools.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

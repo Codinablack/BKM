@@ -5,11 +5,16 @@
 
 namespace BKM {
 
+	/// 0 id, 1 ModType, 2 ModValue
+	using StatModifier = int32_t[3];
+
 	class PointBasedStat {
 	protected:
+		const char* name = "";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
+		std::vector<StatModifier> modifiers;
 	public:
 		PointBasedStat() : max(0), current(0), bonus(0) {};
 		PointBasedStat(uint64_t max) : max(max), current(max), bonus(0) {};
@@ -70,8 +75,20 @@ namespace BKM {
 			bonus -= points;
 		};
 
+		// for adding modifiers.
+		virtual void addModifier(StatModifier modifier) {
+			int32_t pos = int32_t(modifier[1]) + 2;
+			modifiers.emplace(modifiers.begin() + pos, modifier); // insert by modifier id
+		}
+
+		virtual void removeModifier(uint8_t modId) {
+			modifiers.erase(modifiers.begin() + modId);
+		}
 
 		// Get and Set Methods //
+		virtual const char* getName() const {
+			return name;
+		}
 
 		virtual const uint64_t getCurrentPoints() {
 			return current;
@@ -84,6 +101,14 @@ namespace BKM {
 		virtual const uint64_t getMaxPoints() {
 			return bonus + max;
 		};
+
+		virtual const std::vector<StatModifier>& getModifiers() const {
+			return modifiers;
+		}
+
+		virtual void setName(const char* newName) {
+			name = newName;
+		}
 
 		virtual void setMaxPoints(uint64_t points) {
 			max = points;
@@ -100,6 +125,7 @@ namespace BKM {
 
 	class HealthPoints : public PointBasedStat {
 	protected:
+		const char* name = "Health";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
@@ -114,6 +140,7 @@ namespace BKM {
 
 	class ManaPoints : public PointBasedStat {
 	protected:
+		const char* name = "Mana";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
@@ -127,6 +154,7 @@ namespace BKM {
 
 	class SoulPoints : public PointBasedStat {
 	protected:
+		const char* name = "Soul";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
@@ -140,6 +168,7 @@ namespace BKM {
 
 	class EnergyPoints : public PointBasedStat {
 	protected:
+		const char* name = "Energy";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
@@ -153,6 +182,7 @@ namespace BKM {
 
 	class SpeedPoints : public PointBasedStat {
 	protected:
+		const char* name = "Speed";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;
@@ -166,6 +196,7 @@ namespace BKM {
 
 	class ExperiencePoints : public PointBasedStat {
 	protected:
+		const char* name = "Experience";
 		uint64_t max = 0;
 		uint64_t current = 0;
 		uint64_t bonus = 0;

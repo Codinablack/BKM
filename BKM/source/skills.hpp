@@ -5,15 +5,11 @@
 #include "pointbasedstat.hpp"
 
 namespace BKM {
+	/// 0 id, 1 ModType, 2 ModValue
+	using SkillModifier = int32_t[3];
 
 	class LevelBasedSkill {
 	public:
-
-		double difficulty = 1.0;  // multiplaction modifier for exp required for level. 1.0 is normal rate
-		double gainRate = 1.0;  // multiplication modifier to exp points gained. 1.0 is normal rate
-
-		uint64_t current_level = 0;
-		PointBasedStat experience = 0;
 
 		void addPoints(uint64_t points) {
 			addPoints(points, gainRate);
@@ -56,23 +52,41 @@ namespace BKM {
 			}
 		}
 
-		void addLevel() {}
-		void removeLevel() {}
+		void addLevel() {/* do in cpp */ }
+		void addLevels() {/* do in cpp */ }
+		void addModifier() {/* do in cpp */ }
 
-		void addLevels() {}
-		void removeLevels() {}
+		void removeLevels() {/* do in cpp */ }
+		void removeLevel() {/* do in cpp */ }
+		void removeModifier() {/* do in cpp */ }
+
+		uint64_t getLevel() const { return current_level; }
+		uint64_t getEffectiveLevel() const { /* do in cpp */ };
+
+		void setLevel(uint64_t level) {/* do in cpp */ };
+		void setExperiencePoints(uint64_t points) {/* do in cpp */ };
+		void setMaxExperiencePoints(uint64_t points) {/* do in cpp */ };
 
 
 	private:
+		const char* name = "";
+		double difficulty = 1.0;  // multiplaction modifier for exp required for level. 1.0 is normal rate
+		double gainRate = 1.0;  // multiplication modifier to exp points gained. 1.0 is normal rate
+
+		uint64_t current_level = 0;
+		PointBasedStat experience = PointBasedStat(0);
+
 		// can be used to determine exp required for any level
 		uint64_t getPointsRequired(uint64_t level) {
 			uint64_t lastLevel = level - 1;
 			return (((lastLevel + level) * 30) * difficulty);
 		}
 
-
+		std::vector<SkillModifier> _modifiers;
 
 	};
+
 }
+
 
 #endif // _SKILLS_HPP
