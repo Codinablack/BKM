@@ -36,15 +36,15 @@ namespace BKM {
 		uint64_t const getMaxHealthPoints() { return creature_health.getMaxPoints(); }
 		uint64_t const getManaPoints() { return creature_mana.getCurrentPoints(); }
 		uint64_t const getMaxManaPoints() { return creature_mana.getMaxPoints(); }
-		uint64_t const getExperiencePoints() { return creature_exp.getCurrentPoints(); }
-		uint64_t const getExpToNextLevel() { return creature_exp.getMaxPoints() - creature_exp.getCurrentPoints(); }
+		// uint64_t const getExperiencePoints() { return creature_exp.getCurrentPoints(); } // we need to convert to get exp from the level.
+		// uint64_t const getExpToNextLevel() { return creature_exp.getMaxPoints() - creature_exp.getCurrentPoints(); } // same as above.
 
 	private:
-		HealthPoints creature_health;
-		ManaPoints creature_mana;
-		EnergyPoints creature_energy;
-		ExperiencePoints creature_exp;
-		SpeedPoints creature_speed;
+		PointBasedStat creature_health{0};
+		PointBasedStat creature_mana{0};
+		PointBasedStat creature_energy{0};
+		PointBasedStat creature_exp{0};
+		PointBasedStat creature_speed{0};
 
 		std::vector<PointBasedStat> creature_stats;
 		std::vector<LevelBasedSkill> creature_skills;

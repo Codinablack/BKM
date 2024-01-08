@@ -23,7 +23,7 @@ namespace BKM {
 		void setHealthGain(uint16_t healthGain) { v_healthGain = healthGain; }
 
 		uint16_t getManaGain() const { return v_manaGain; }
-		void setHealthGain(uint16_t manaGain) { v_manaGain = manaGain; }
+		void setManaGain(uint16_t manaGain) { v_manaGain = manaGain; }
 
 		uint16_t getSpeedGain() const { return v_speedGain; }
 		void setSpeedGain(uint16_t speedGain) { v_speedGain = speedGain; }
@@ -61,10 +61,6 @@ namespace BKM {
 
 		std::vector<uint16_t> getSkillModifiers() const {
 			return v_skillModifiers;
-		}
-
-		uint32_t getStatModifier(uint16_t id) const {
-			/// todo: return value of modifier(id)
 		}
 
 	private:

@@ -16,7 +16,7 @@ namespace BKM {
 		}
 
 		void addPoints(uint64_t points, double rate ) {
-			points = points * rate;
+			points = (uint64_t)((double)points * rate);
 			if ((experience.getMaxPoints() - experience.getCurrentPoints()) >= points) {
 				experience.addPoints(points);
 			}
@@ -79,7 +79,7 @@ namespace BKM {
 		// can be used to determine exp required for any level
 		uint64_t getPointsRequired(uint64_t level) {
 			uint64_t lastLevel = level - 1;
-			return (((lastLevel + level) * 30) * difficulty);
+			return (uint64_t)((((double)lastLevel + (double)level) * 30.0) * difficulty);
 		}
 
 		std::vector<SkillModifier> _modifiers;

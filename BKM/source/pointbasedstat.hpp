@@ -5,26 +5,36 @@
 
 namespace BKM {
 
-	/// 0 id, 1 ModType, 2 ModValue
-	using StatModifier = int32_t[3];
+	enum class StatModifierType {
+		DEFAULT_ADD_CURRENT,
+		DEFAULT_SUB_CURRENT,
+		DEFAULT_MUL_CURRENT,
+		DEFAULT_ADD_MAX,
+		DEFAULT_SUB_MAX,
+		DEFAULT_MUL_MAX, // should use double, and possibly only allow 1 instance of this type, or better yet, make a user configurable cap? //
+
+	};
+
+	struct StatModifier {
+		StatModifier() {}
+		uint16_t	id = 0;
+		uint16_t	type = 0;
+		uint16_t	value = 0;
+	};
 
 	class PointBasedStat {
-	protected:
+	private:
 		const char* name = "";
 		uint64_t max = 0;
 		uint64_t current = 0;
-		uint64_t bonus = 0;
-		std::vector<StatModifier> modifiers;
+		std::map<uint16_t, StatModifier> modifiers;
 	public:
-		PointBasedStat() : max(0), current(0), bonus(0) {};
-		PointBasedStat(uint64_t max) : max(max), current(max), bonus(0) {};
-		PointBasedStat(uint64_t max, uint64_t current) : max(max), current(current), bonus(0) {};
-		PointBasedStat(uint64_t max, uint64_t current, uint64_t bonus) : max(max), current(current), bonus(bonus) {};
+		PointBasedStat(const char* name, uint64_t max = 0, uint64_t current = 0) : name(name), max(max), current(current) {};
 
 		// For adding points to 'current' field. ex increasing health vs maxhealth.
-		virtual void addPoints(uint64_t points) {
+		void addPoints(uint64_t points) {
 			uint64_t limit = getMaxPoints();
-			if (current = ~limit) {
+			if (current != limit) {
 				if ((current + points) >= limit) {
 					current = limit;
 				}
@@ -35,7 +45,7 @@ namespace BKM {
 		};
 
 		// for removing points from the 'current' field.
-		virtual void removePoints(uint64_t points) {
+		void removePoints(uint64_t points) {
 			if (current > 0 and points <= current) {
 				current = current - points;
 			}
@@ -44,13 +54,17 @@ namespace BKM {
 			}
 		};
 
-		// for adding to the 'max' field. ex increasing max health vs health.
-		virtual void addMaxPoints(uint64_t points) {
+		// for adding to the 'max' field. ex increasing max health vs health
+		// we can add to both 'current' and 'max' fields with true for second parameter.
+		void addMaxPoints(uint64_t points, bool increaseCurrentPoints = false) {
+			if (increaseCurrentPoints) {
+				current += points;
+			}
 			max += points;
 		};
 
 		// for removing points from the 'max' field. 
-		virtual void removeMaxPoints(uint64_t points) {
+		void removeMaxPoints(uint64_t points) {
 			uint64_t diff = max - points;
 			if (current > diff) {
 				current = diff;
@@ -58,154 +72,44 @@ namespace BKM {
 			max -= points;
 		};
 
-		// for handling the addition of bonus points, we can add to both 'current' and 'bonus' fields with true for second parameter.
-		virtual void addBonus(uint64_t points, bool increaseCurrentPoints = false) {
-			if (increaseCurrentPoints) {
-				current += points;
-			}
-			bonus += points;
-		};
-
-		// for handling the removal of bonus points.
-		virtual void removeBonus(uint64_t points) {
-			uint64_t diff = bonus - points;
-			if (current > diff) {
-				current = diff;
-			}
-			bonus -= points;
-		};
-
 		// for adding modifiers.
-		virtual void addModifier(StatModifier modifier) {
-			int32_t pos = int32_t(modifier[1]) + 2;
-			modifiers.emplace(modifiers.begin() + pos, modifier); // insert by modifier id
+		void addModifier(StatModifier modifier) {
+			modifiers.emplace(modifier.id, modifier);
 		}
 
-		virtual void removeModifier(uint8_t modId) {
-			modifiers.erase(modifiers.begin() + modId);
+		// for removing modifiers.
+		void removeModifier(StatModifier modifier) {
+			modifiers.erase(modifier.id);
 		}
 
 		// Get and Set Methods //
-		virtual const char* getName() const {
+		const char* getName() const {
 			return name;
 		}
 
-		virtual const uint64_t getCurrentPoints() {
+		const uint64_t getCurrentPoints() const {
 			return current;
 		};
 
-		virtual void setCurrentPoints(uint64_t points) {
+		void setCurrentPoints(uint64_t points) {
 			current = points;
 		};
 
-		virtual const uint64_t getMaxPoints() {
-			return bonus + max;
+		const uint64_t getMaxPoints() const {
+			return max;
 		};
 
-		virtual const std::vector<StatModifier>& getModifiers() const {
+		const std::map<uint16_t, StatModifier>& getModifiers() const {
 			return modifiers;
 		}
 
-		virtual void setName(const char* newName) {
+		void setName(const char* newName) {
 			name = newName;
 		}
 
-		virtual void setMaxPoints(uint64_t points) {
+		void setMaxPoints(uint64_t points) {
 			max = points;
 		};
-
-		virtual const uint64_t getBonusPoints() {
-			return bonus;
-		};
-
-		virtual void setBonusPoints(uint64_t points) {
-			bonus = points;
-		};
-	};
-
-	class HealthPoints : public PointBasedStat {
-	protected:
-		const char* name = "Health";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		HealthPoints() : PointBasedStat() {};
-		HealthPoints(uint64_t max) : PointBasedStat(max) {};
-		HealthPoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		HealthPoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
-	};
-
-
-	class ManaPoints : public PointBasedStat {
-	protected:
-		const char* name = "Mana";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		ManaPoints() : PointBasedStat() {};
-		ManaPoints(uint64_t max) : PointBasedStat(max) {};
-		ManaPoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		ManaPoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
-	};
-
-	class SoulPoints : public PointBasedStat {
-	protected:
-		const char* name = "Soul";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		SoulPoints() : PointBasedStat() {};
-		SoulPoints(uint64_t max) : PointBasedStat(max) {};
-		SoulPoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		SoulPoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
-	};
-
-	class EnergyPoints : public PointBasedStat {
-	protected:
-		const char* name = "Energy";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		EnergyPoints() : PointBasedStat() {};
-		EnergyPoints(uint64_t max) : PointBasedStat(max) {};
-		EnergyPoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		EnergyPoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
-	};
-
-	class SpeedPoints : public PointBasedStat {
-	protected:
-		const char* name = "Speed";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		SpeedPoints() : PointBasedStat() {};
-		SpeedPoints(uint64_t max) : PointBasedStat(max) {};
-		SpeedPoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		SpeedPoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
-	};
-
-	class ExperiencePoints : public PointBasedStat {
-	protected:
-		const char* name = "Experience";
-		uint64_t max = 0;
-		uint64_t current = 0;
-		uint64_t bonus = 0;
-
-	public:
-		ExperiencePoints() : PointBasedStat() {};
-		ExperiencePoints(uint64_t max) : PointBasedStat(max) {};
-		ExperiencePoints(uint64_t max, uint64_t current) : PointBasedStat(max, current) {};
-		ExperiencePoints(uint64_t max, uint64_t current, uint64_t bonus) : PointBasedStat(max, current, bonus) {};
 	};
 
 } // BKM
