@@ -14,7 +14,7 @@ int main() {
 	ScriptManager& scriptMan = *ScriptManager::getManager();
 	scriptMan.init();
 	// we seperated the load from the init for threading later...
-	scriptMan.loadScriptDirectory();
+	scriptMan.loadScriptDirectory("data/");
 
 	return 0;
 }

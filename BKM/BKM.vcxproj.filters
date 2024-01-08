@@ -29,6 +29,9 @@
     <ClCompile Include="source\vocation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\player.hpp">
@@ -73,9 +76,6 @@
     <ClInclude Include="source\console.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\config.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\vocation.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -88,7 +88,7 @@
     <ClInclude Include="source\skills.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\tools.hpp">
+    <ClInclude Include="source\game.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

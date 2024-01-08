@@ -14,7 +14,7 @@ namespace BKM {
 	{
 	public:
 		void init();
-		void loadScriptDirectory();
+		void loadScriptDirectory(std::filesystem::path filepath);
 		bool loadConfigFile();
 		void registerConfig();
 		void createConfigTree();

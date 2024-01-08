@@ -7,7 +7,6 @@
 #include "monster.hpp"
 #include "npc.hpp"
 #include "console.hpp"
-#include "config.hpp"
 #include "vocation.hpp"
 
 namespace BKM {
@@ -59,8 +58,8 @@ namespace BKM {
 		lua_man.~state();
 	}
 
-	void ScriptManager::loadScriptDirectory() {
-		for (const auto& entry : std::filesystem::recursive_directory_iterator(script_directory)) {
+	void ScriptManager::loadScriptDirectory(std::filesystem::path directory) {
+		for (const auto& entry : std::filesystem::recursive_directory_iterator(directory)) {
 			if (entry.is_regular_file() && entry.path().extension() == ".lua") {
 				try
 				{
