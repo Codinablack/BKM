@@ -11,31 +11,12 @@
 
 namespace BKM {
 
-	ScriptManager* ScriptManager::sm_instance = nullptr;
-	std::mutex ScriptManager::sm_mutex;
-
-	ScriptManager* ScriptManager::getManager() {
-		// using mutex to make thread safe.
-		std::lock_guard<std::mutex> lock(sm_mutex);
-		if (sm_instance == nullptr)
-		{
-			sm_instance = new ScriptManager();
-			// should possibly start init() here?
-		}
-		return sm_instance;
+	ScriptManager::ScriptManager() {
+		init();
 	}
-
-	void ScriptManager::destroyManager() {
-		shutdown();
-		// should be unlock here I think. 
-		std::lock_guard<std::mutex> unlock(sm_mutex);
-		delete sm_instance;
-		sm_instance = nullptr;
-	}
-
 
 	ScriptManager::~ScriptManager() {
-		destroyManager();
+		shutdown();
 	}
 
 	void ScriptManager::init() {
