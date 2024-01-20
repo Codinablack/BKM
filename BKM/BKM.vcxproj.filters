@@ -20,9 +20,6 @@
     <ClCompile Include="source\scriptmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\networkmanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\coloredstream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,12 +61,6 @@
     <ClInclude Include="source\npc.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\networkmanager.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\networkcontroller.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\coloredstream.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -89,6 +80,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\doublestack.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\netcore.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\netmessage.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

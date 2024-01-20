@@ -2,6 +2,7 @@
 #define _CONSOLE_HPP
 
 #include "coloredstream.hpp"
+#include <iostream>
 
 namespace BKM {
 

@@ -6,13 +6,10 @@
 namespace BKM {
 
 	enum class StatModifierType {
-		DEFAULT_ADD_CURRENT,
-		DEFAULT_SUB_CURRENT,
-		DEFAULT_MUL_CURRENT,
-		DEFAULT_ADD_MAX,
-		DEFAULT_SUB_MAX,
-		DEFAULT_MUL_MAX, // should use double, and possibly only allow 1 instance of this type, or better yet, make a user configurable cap? //
-
+		ADD_CURRENT_PERCENT, // "percentIncrease"
+		SUB_CURRENT_PERCENT, // "percentDecrease"
+		ADD_FLAT_MAX,		 // "flatIncrease"
+		SUB_FLAT_MAX,		 // "flatDecrease"
 	};
 
 	struct StatModifier {

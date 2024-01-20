@@ -4,7 +4,7 @@
 namespace BKM {
 
 	void Game::LoadStats() {
-		ScriptManager& scriptMan = *ScriptManager::getManager();
+
 	}
 
 

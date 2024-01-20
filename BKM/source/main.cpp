@@ -3,18 +3,14 @@
 #include <sol/sol.hpp>
 #include <iostream>
 #include <stdlib.h>
+#include <chrono>
 
 #include "console.hpp"
 #include "scriptmanager.hpp"
 #include "player.hpp"
 
-
 int main() {
-	using namespace BKM;
-	ScriptManager& scriptMan = *ScriptManager::getManager();
-	scriptMan.init();
-	// we seperated the load from the init for threading later...
-	scriptMan.loadScriptDirectory("data/");
+
 
 	return 0;
 }

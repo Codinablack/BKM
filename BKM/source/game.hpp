@@ -12,10 +12,10 @@ namespace BKM {
 		// ShaderManager shaderMan;
 		// MapManager mapMan; -- w/ spawnMan & townMan;
 
-		ScriptManager scriptMan; // w/ configMan
+		///ScriptManager scriptMan; // w/ configMan
 
 
-		void LoadStats() {/* do in cpp */ }
+		void LoadStats();
 		void LoadSkills() {/* do in cpp */ }
 		void LoadVocations() {/* do in cpp */ }
 		void LoadModels() {/* do in cpp */ }
@@ -28,6 +28,19 @@ namespace BKM {
 		void LoadAugments() {/* do in cpp */ }
 		void LoadDatabase() {/* do in cpp */ }
 
+
+	private:
+		std::map<const char*, const char*, std::less<>> config;
+		std::map<const char*, const char*, std::less<>> damageTypes;
+		std::map<const char*, const char*, std::less<>> skills;
+		std::map<const char*, const char*, std::less<>> stats;
+		std::map<const char*, const char*, std::less<>> vocations;
+		std::map<const char*, const char*, std::less<>> races;
+		std::map<const char*, const char*, std::less<>> monsterTypes;
+		std::map<const char*, const char*, std::less<>> items;
+		std::map<const char*, const char*, std::less<>> spells;
+		std::map<const char*, const char*, std::less<>> abilites;
+		std::map<const char*, const char*, std::less<>> Augments;
 	};
 }
 

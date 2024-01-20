@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -134,7 +135,6 @@
     <ClCompile Include="source\coloredstream.cpp" />
     <ClCompile Include="source\game.cpp" />
     <ClCompile Include="source\main.cpp" />
-    <ClCompile Include="source\networkmanager.cpp" />
     <ClCompile Include="source\player.cpp" />
     <ClCompile Include="source\scriptmanager.cpp" />
     <ClCompile Include="source\vocation.cpp" />
@@ -147,6 +147,10 @@
     <ClInclude Include="source\coloredstream.hpp" />
     <ClInclude Include="source\console.hpp" />
     <ClInclude Include="source\creature.hpp" />
+    <ClInclude Include="source\doublestack.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="source\game.hpp">
       <SubType>
       </SubType>
@@ -159,8 +163,11 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="source\monster.hpp" />
-    <ClInclude Include="source\networkcontroller.hpp" />
-    <ClInclude Include="source\networkmanager.hpp" />
+    <ClInclude Include="source\netcore.hpp" />
+    <ClInclude Include="source\netmessage.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="source\npc.hpp" />
     <ClInclude Include="source\player.hpp" />
     <ClInclude Include="source\pointbasedstat.hpp" />
@@ -174,5 +181,13 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
 </Project>
